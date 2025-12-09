@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -28,6 +29,10 @@ function AppContent() {
 
   return (
     <>
+      <Helmet>
+        <title>QuizMaster - Master Your Knowledge</title>
+        <meta name="description" content="Join QuizMaster to create, study, and share flashcards. The best way to master any subject." />
+      </Helmet>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
