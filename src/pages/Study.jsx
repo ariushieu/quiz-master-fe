@@ -169,7 +169,7 @@ export default function Study() {
                         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                             <Link to="/sets" className="text-secondary" style={{ fontSize: '0.9rem' }}>← Back</Link>
                             <Link to={`/quiz/${id}`} className="btn btn-secondary btn-sm" style={{ padding: '4px 12px', fontSize: '0.8rem' }}>
-                                🎮 Quiz Mode
+                                Quiz Mode
                             </Link>
                         </div>
                         <span className="text-muted" style={{ fontSize: '0.9rem' }}>
