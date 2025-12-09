@@ -18,6 +18,14 @@ export default function Quiz() {
         loadSet();
     }, [id]);
 
+    useEffect(() => {
+        if (showResult) {
+            localStorage.setItem('quest_quiz', 'true');
+        }
+    }, [showResult]);
+
+
+
     const loadSet = async () => {
         try {
             const data = await setsAPI.getOne(id);

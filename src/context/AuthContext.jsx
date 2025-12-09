@@ -40,6 +40,12 @@ export function AuthProvider({ children }) {
 
     const logout = () => {
         localStorage.removeItem('token');
+        // Clear quest progress to avoid stale state for next user
+        localStorage.removeItem('quest_explore');
+        localStorage.removeItem('quest_create');
+        localStorage.removeItem('quest_study');
+        localStorage.removeItem('quest_quiz');
+        localStorage.removeItem('quest_completed');
         setUser(null);
     };
 

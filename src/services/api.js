@@ -176,6 +176,16 @@ export const statsAPI = {
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
         return data;
+    },
+
+    claimQuest: async () => {
+        const res = await fetch(`${API_URL}/stats/claim-quest`, {
+            method: 'POST',
+            headers: authHeaders()
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        return data;
     }
 };
 

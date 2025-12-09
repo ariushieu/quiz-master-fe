@@ -69,6 +69,8 @@ export default function CreateSet() {
                 await setsAPI.update(id, title, description, validCards, isPublic);
             } else {
                 await setsAPI.create(title, description, validCards, isPublic);
+                // Track for quest
+                localStorage.setItem('quest_create', 'true');
             }
             navigate('/sets');
         } catch (err) {

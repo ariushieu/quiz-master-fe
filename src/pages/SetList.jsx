@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { setsAPI } from '../services/api';
 
+import LearningPath from '../components/LearningPath';
+
 export default function SetList() {
     const [sets, setSets] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -61,6 +63,7 @@ export default function SetList() {
     return (
         <div className="page">
             <div className="container">
+                <LearningPath />
                 <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="page-title">My Study Sets</h1>
                     <Link to="/create" className="btn btn-primary">

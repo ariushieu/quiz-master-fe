@@ -50,6 +50,8 @@ export default function Study() {
 
             if (currentIndex >= cards.length - 1) {
                 setSessionComplete(true);
+                // Track for quest
+                localStorage.setItem('quest_study', 'true');
             } else {
                 setCurrentIndex(currentIndex + 1);
             }

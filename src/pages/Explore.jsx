@@ -9,6 +9,8 @@ export default function Explore() {
 
     useEffect(() => {
         loadPublicSets();
+        // Track for quest
+        localStorage.setItem('quest_explore', 'true');
     }, []);
 
     const loadPublicSets = async () => {
