@@ -72,6 +72,7 @@ export default function Navbar() {
                                 <div className="dropdown-menu">
                                     <div className="dropdown-header">
                                         {user.username}
+                                        {user.role === 'admin' && <span className="admin-tag">Admin</span>}
                                     </div>
                                     <Link
                                         to="/profile"
@@ -80,6 +81,15 @@ export default function Navbar() {
                                     >
                                         👤 Profile
                                     </Link>
+                                    {user.role === 'admin' && (
+                                        <Link
+                                            to="/admin/badges"
+                                            className="dropdown-item"
+                                            onClick={() => setDropdownOpen(false)}
+                                        >
+                                            🛡️ Admin Badges
+                                        </Link>
+                                    )}
                                     <button
                                         onClick={handleLogout}
                                         className="dropdown-item dropdown-item-danger"

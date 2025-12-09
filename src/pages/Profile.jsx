@@ -5,6 +5,7 @@ import { statsAPI, uploadAPI } from '../services/api';
 export default function Profile() {
     const [stats, setStats] = useState(null);
     const [achievements, setAchievements] = useState([]);
+    const [specialBadges, setSpecialBadges] = useState([]);
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef(null);
@@ -20,7 +21,14 @@ export default function Profile() {
                 statsAPI.getAchievements()
             ]);
             setStats(statsData);
-            setAchievements(achievementsData);
+            // Handle new response format with achievements and specialBadges
+            if (achievementsData.achievements) {
+                setAchievements(achievementsData.achievements);
+                setSpecialBadges(achievementsData.specialBadges || []);
+            } else {
+                // Fallback for old format
+                setAchievements(achievementsData);
+            }
         } catch (error) {
             console.error('Failed to load profile:', error);
         } finally {
@@ -57,6 +65,7 @@ export default function Profile() {
     }
 
     const unlockedCount = achievements.filter(a => a.unlocked).length;
+    const unlockedSpecialBadges = specialBadges.filter(b => b.unlocked);
 
     return (
         <div className="page">
@@ -111,6 +120,29 @@ export default function Profile() {
                         <div className="stat-label">Best Streak</div>
                     </div>
                 </div>
+
+                {/* Special Badges Section */}
+                {unlockedSpecialBadges.length > 0 && (
+                    <div className="profile-section">
+                        <div className="section-header">
+                            <h2>⭐ Special Badges</h2>
+                            <span className="badge badge-exclusive">{unlockedSpecialBadges.length} exclusive</span>
+                        </div>
+
+                        <div className="achievements-grid">
+                            {unlockedSpecialBadges.map(badge => (
+                                <div key={badge.id} className="achievement-card exclusive unlocked">
+                                    <div className="achievement-icon">{badge.icon}</div>
+                                    <div className="achievement-info">
+                                        <div className="achievement-name">{badge.name}</div>
+                                        <div className="achievement-desc">{badge.description}</div>
+                                    </div>
+                                    <div className="achievement-check">⭐</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* Achievements */}
                 <div className="profile-section">

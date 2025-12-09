@@ -12,6 +12,7 @@ import Quiz from './pages/Quiz';
 import Profile from './pages/Profile';
 import Leaderboard from './pages/Leaderboard';
 import UserProfile from './pages/UserProfile';
+import AdminBadges from './pages/AdminBadges';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -98,6 +99,14 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <UserProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/badges"
+          element={
+            <ProtectedRoute>
+              <AdminBadges />
             </ProtectedRoute>
           }
         />

@@ -195,3 +195,46 @@ export const uploadAPI = {
         return data;
     }
 };
+
+// ===== ADMIN API =====
+export const adminAPI = {
+    getUsers: async () => {
+        const res = await fetch(`${API_URL}/admin/users`, {
+            headers: authHeaders()
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        return data;
+    },
+
+    getBadges: async () => {
+        const res = await fetch(`${API_URL}/admin/badges`, {
+            headers: authHeaders()
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        return data;
+    },
+
+    grantBadge: async (userId, badgeId) => {
+        const res = await fetch(`${API_URL}/admin/badge/grant`, {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify({ userId, badgeId })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        return data;
+    },
+
+    revokeBadge: async (userId, badgeId) => {
+        const res = await fetch(`${API_URL}/admin/badge/revoke`, {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify({ userId, badgeId })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        return data;
+    }
+};

@@ -79,6 +79,29 @@ export default function UserProfile() {
                     </div>
                 </div>
 
+                {/* Special Badges */}
+                {profile.specialBadges?.length > 0 && (
+                    <div className="profile-section">
+                        <div className="section-header">
+                            <h2>⭐ Special Badges</h2>
+                            <span className="badge badge-exclusive">{profile.specialBadges.length} exclusive</span>
+                        </div>
+
+                        <div className="achievements-grid">
+                            {profile.specialBadges.map(badge => (
+                                <div key={badge.id} className="achievement-card exclusive unlocked">
+                                    <div className="achievement-icon">{badge.icon}</div>
+                                    <div className="achievement-info">
+                                        <div className="achievement-name">{badge.name}</div>
+                                        <div className="achievement-desc">{badge.description}</div>
+                                    </div>
+                                    <div className="achievement-check">⭐</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 {/* Achievements */}
                 {profile.achievements?.length > 0 && (
                     <div className="profile-section">
