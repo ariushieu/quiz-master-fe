@@ -62,6 +62,7 @@ export default function Home() {
                                 </Link>
                                 <Link to="/explore" className="btn btn-secondary btn-lg" style={{
                                     background: 'white',
+                                    color: '#1a202c',
                                     border: '2px solid var(--border-color)',
                                     minWidth: '160px'
                                 }}>
