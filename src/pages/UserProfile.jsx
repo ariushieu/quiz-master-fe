@@ -45,7 +45,7 @@ export default function UserProfile() {
     return (
         <div className="page">
             <div className="container" style={{ maxWidth: '700px' }}>
-                <div className="page-header" style={{ textAlign: 'center' }}>
+                <div className="page-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     {/* Avatar */}
                     {profile.avatar ? (
                         <img src={profile.avatar} alt={profile.username} className="avatar avatar-lg" />

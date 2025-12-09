@@ -70,7 +70,7 @@ export default function Profile() {
     return (
         <div className="page">
             <div className="container" style={{ maxWidth: '800px' }}>
-                <div className="page-header" style={{ textAlign: 'center' }}>
+                <div className="page-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     {/* Upload Loading Overlay */}
                     {uploading && (
                         <div className="upload-loading">
@@ -80,7 +80,7 @@ export default function Profile() {
                     )}
 
                     {/* Avatar */}
-                    <div className="avatar-container" onClick={handleAvatarClick}>
+                    <div className="avatar-container" onClick={handleAvatarClick} style={{ display: 'flex', justifyContent: 'center' }}>
                         {stats?.avatar ? (
                             <img src={stats.avatar} alt="Avatar" className="avatar avatar-lg" />
                         ) : (
