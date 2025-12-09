@@ -50,6 +50,7 @@ export default function Navbar() {
                 {user ? (
                     <>
                         <li><Link to="/sets">My Sets</Link></li>
+                        <li><Link to="/explore">Explore</Link></li>
                         <li><Link to="/create">Create</Link></li>
                         <li><Link to="/leaderboard">Top Streak</Link></li>
 

@@ -87,7 +87,23 @@ export default function SetList() {
                     <div className="grid grid-3">
                         {sets.map((set) => (
                             <div key={set._id} className="set-card fade-in">
-                                <h3 className="set-card-title">{set.title}</h3>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                    <h3 className="set-card-title">{set.title}</h3>
+                                    {set.isPublic && (
+                                        <span style={{
+                                            background: 'var(--primary-color)',
+                                            color: 'white',
+                                            padding: '2px 8px',
+                                            borderRadius: '12px',
+                                            fontSize: '0.7rem',
+                                            fontWeight: 'bold',
+                                            marginLeft: '8px',
+                                            whiteSpace: 'nowrap'
+                                        }}>
+                                            PUBLIC
+                                        </span>
+                                    )}
+                                </div>
                                 <p className="set-card-desc">
                                     {set.description || 'No description'}
                                 </p>
@@ -112,6 +128,30 @@ export default function SetList() {
                                         Delete
                                     </button>
                                 </div>
+                                {set.isPublic && (
+                                    <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #eee' }}>
+                                        <button
+                                            className="btn btn-sm"
+                                            style={{
+                                                width: '100%',
+                                                background: '#f0f0f0',
+                                                color: '#555',
+                                                fontSize: '0.8rem',
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                gap: '5px'
+                                            }}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                navigator.clipboard.writeText(`${window.location.origin}/study/${set._id}`);
+                                                alert('Link copied to clipboard!');
+                                            }}
+                                        >
+                                            Share Link
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>

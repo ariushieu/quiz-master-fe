@@ -161,6 +161,28 @@ export default function Quiz() {
     }
 
     if (error) {
+        if (error.includes('Access denied') || error.includes('403')) {
+            return (
+                <div className="page">
+                    <div className="container" style={{ textAlign: 'center', paddingTop: '60px' }}>
+                        <div style={{ fontSize: '64px', marginBottom: '20px' }}>🔒</div>
+                        <h2 style={{ marginBottom: '16px' }}>Private Set</h2>
+                        <p className="text-secondary" style={{ marginBottom: '32px' }}>
+                            This set is private. You do not have permission to view or study it.
+                        </p>
+                        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+                            <Link to="/explore" className="btn btn-primary">
+                                Explore Public Sets
+                            </Link>
+                            <Link to="/sets" className="btn btn-secondary">
+                                Back to Home
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div className="page">
                 <div className="container">

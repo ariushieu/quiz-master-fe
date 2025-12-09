@@ -63,22 +63,25 @@ export const setsAPI = {
         return data;
     },
 
-    create: async (title, description, cards) => {
+    create: async (title, description, cards, isPublic = false) => {
         const res = await fetch(`${API_URL}/sets`, {
             method: 'POST',
             headers: authHeaders(),
-            body: JSON.stringify({ title, description, cards })
+            body: JSON.stringify({ title, description, cards, isPublic })
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
         return data;
     },
 
-    update: async (id, title, description, cards) => {
+    update: async (id, title, description, cards, isPublic) => {
+        const body = { title, description, cards };
+        if (isPublic !== undefined) body.isPublic = isPublic;
+
         const res = await fetch(`${API_URL}/sets/${id}`, {
             method: 'PUT',
             headers: authHeaders(),
-            body: JSON.stringify({ title, description, cards })
+            body: JSON.stringify(body)
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
@@ -88,6 +91,15 @@ export const setsAPI = {
     delete: async (id) => {
         const res = await fetch(`${API_URL}/sets/${id}`, {
             method: 'DELETE',
+            headers: authHeaders()
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        return data;
+    },
+
+    getPublicSets: async () => {
+        const res = await fetch(`${API_URL}/sets/public`, {
             headers: authHeaders()
         });
         const data = await res.json();

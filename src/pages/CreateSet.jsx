@@ -9,6 +9,7 @@ export default function CreateSet() {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [isPublic, setIsPublic] = useState(false);
     const [cards, setCards] = useState([{ term: '', definition: '' }]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -24,6 +25,7 @@ export default function CreateSet() {
             const data = await setsAPI.getOne(id);
             setTitle(data.title);
             setDescription(data.description || '');
+            setIsPublic(data.isPublic || false);
             setCards(data.cards.length > 0 ? data.cards : [{ term: '', definition: '' }]);
         } catch (err) {
             setError(err.message);
@@ -64,9 +66,9 @@ export default function CreateSet() {
 
         try {
             if (isEditing) {
-                await setsAPI.update(id, title, description, validCards);
+                await setsAPI.update(id, title, description, validCards, isPublic);
             } else {
-                await setsAPI.create(title, description, validCards);
+                await setsAPI.create(title, description, validCards, isPublic);
             }
             navigate('/sets');
         } catch (err) {
@@ -106,6 +108,23 @@ export default function CreateSet() {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
+                        </div>
+
+                        <div className="form-group" style={{ marginBottom: 0, marginTop: '20px' }}>
+                            <label className="checkbox-label" style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={isPublic}
+                                    onChange={(e) => setIsPublic(e.target.checked)}
+                                    style={{ width: '18px', height: '18px' }}
+                                />
+                                <div>
+                                    <span style={{ fontWeight: 600 }}>Make this set Public</span>
+                                    <p className="text-secondary" style={{ fontSize: '0.85rem', margin: '4px 0 0 0' }}>
+                                        Public sets can be studied by anyone, will have a shareable link, and appear in the Explore page.
+                                    </p>
+                                </div>
+                            </label>
                         </div>
                     </div>
 

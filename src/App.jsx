@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import Leaderboard from './pages/Leaderboard';
 import UserProfile from './pages/UserProfile';
 import AdminBadges from './pages/AdminBadges';
+import Explore from './pages/Explore';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -43,6 +44,14 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <SetList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/explore"
+          element={
+            <ProtectedRoute>
+              <Explore />
             </ProtectedRoute>
           }
         />
