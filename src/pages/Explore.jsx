@@ -70,9 +70,12 @@ export default function Explore() {
                                     <span>{set.cards?.length || 0} terms</span>
                                     <span>By {set.userId?.username || 'Unknown'}</span>
                                 </div>
-                                <div className="set-card-actions">
-                                    <Link to={`/study/${set._id}`} className="btn btn-primary btn-sm" style={{ width: '100%', textAlign: 'center' }}>
-                                        Study Now
+                                <div className="set-card-actions" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                                    <Link to={`/study/${set._id}`} className="btn btn-primary btn-sm" style={{ textAlign: 'center' }}>
+                                        Study
+                                    </Link>
+                                    <Link to={`/quiz/${set._id}`} className="btn btn-secondary btn-sm" style={{ textAlign: 'center' }}>
+                                        Quiz
                                     </Link>
                                 </div>
                             </div>

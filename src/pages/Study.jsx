@@ -166,7 +166,12 @@ export default function Study() {
             <div className="container" style={{ maxWidth: '640px' }}>
                 <div style={{ marginBottom: '28px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                        <Link to="/sets" className="text-secondary" style={{ fontSize: '0.9rem' }}>← Back</Link>
+                        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                            <Link to="/sets" className="text-secondary" style={{ fontSize: '0.9rem' }}>← Back</Link>
+                            <Link to={`/quiz/${id}`} className="btn btn-secondary btn-sm" style={{ padding: '4px 12px', fontSize: '0.8rem' }}>
+                                🎮 Quiz Mode
+                            </Link>
+                        </div>
                         <span className="text-muted" style={{ fontSize: '0.9rem' }}>
                             {currentIndex + 1} / {cards.length}
                         </span>
