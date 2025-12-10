@@ -44,7 +44,7 @@ export default function Study() {
 
     const handleReview = async (quality) => {
         try {
-            await studyAPI.submitReview(id, cards[currentIndex].cardIndex, quality);
+            await studyAPI.submitReview(id, cards[currentIndex].cardIndex, quality, new Date().getTimezoneOffset());
 
             setStats(prev => ({ ...prev, studied: prev.studied + 1 }));
 

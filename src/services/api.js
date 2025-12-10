@@ -119,11 +119,11 @@ export const studyAPI = {
         return data;
     },
 
-    submitReview: async (setId, cardIndex, quality) => {
+    submitReview: async (setId, cardIndex, quality, timezoneOffset) => {
         const res = await fetch(`${API_URL}/study/${setId}/review`, {
             method: 'POST',
             headers: authHeaders(),
-            body: JSON.stringify({ cardIndex, quality })
+            body: JSON.stringify({ cardIndex, quality, timezoneOffset })
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
