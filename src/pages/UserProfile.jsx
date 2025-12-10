@@ -130,13 +130,23 @@ export default function UserProfile() {
 
                         <div className="achievements-grid">
                             {profile.achievements.map(achievement => (
-                                <div key={achievement.id} className="achievement-card unlocked">
-                                    <div className="achievement-icon">{achievement.icon}</div>
+                                <div
+                                    key={achievement.id}
+                                    className="achievement-card unlocked"
+                                    style={achievement.id === 'champion' ? {
+                                        border: '1px solid #FFD700',
+                                        background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%)',
+                                        boxShadow: '0 0 15px rgba(255, 215, 0, 0.3)'
+                                    } : {}}
+                                >
+                                    <div className="achievement-icon" style={achievement.id === 'champion' ? { fontSize: '2rem' } : {}}>{achievement.icon}</div>
                                     <div className="achievement-info">
-                                        <div className="achievement-name">{achievement.name}</div>
+                                        <div className="achievement-name" style={achievement.id === 'champion' ? { color: '#FFD700', fontWeight: 'bold' } : {}}>
+                                            {achievement.name}
+                                        </div>
                                         <div className="achievement-desc">{achievement.description}</div>
                                     </div>
-                                    <div className="achievement-check">✓</div>
+                                    <div className="achievement-check" style={achievement.id === 'champion' ? { color: '#FFD700' } : {}}>✓</div>
                                 </div>
                             ))}
                         </div>
