@@ -1399,6 +1399,43 @@ h4 {
   background: linear-gradient(135deg, rgba(205, 127, 50, 0.1), transparent);
 }
 
+/* Real 3D Fire Effect */
+.streak-fire {
+  display: inline-block;
+  position: relative;
+  /* 3D Fire Core */
+  filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.8)) drop-shadow(0 -2px 4px rgba(255, 69, 0, 0.6)) drop-shadow(0 -4px 8px rgba(255, 0, 0, 0.4));
+  animation: fire-3d 2s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+@keyframes fire-3d {
+  0% {
+    transform: scale(1) rotate(0deg) translateY(0);
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.8)) drop-shadow(0 -2px 4px rgba(255, 69, 0, 0.6)) drop-shadow(0 -4px 8px rgba(255, 0, 0, 0.4));
+  }
+
+  25% {
+    transform: scale(1.1) rotate(-2deg) translateY(-1px);
+    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.9)) drop-shadow(-2px -5px 6px rgba(255, 69, 0, 0.7)) drop-shadow(-1px -8px 12px rgba(255, 0, 0, 0.5));
+  }
+
+  50% {
+    transform: scale(1.05) rotate(2deg) translateY(-2px);
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 1)) drop-shadow(2px -6px 8px rgba(255, 69, 0, 0.8)) drop-shadow(1px -10px 15px rgba(255, 0, 0, 0.6));
+  }
+
+  75% {
+    transform: scale(1.15) rotate(-1deg) translateY(-1px);
+    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.9)) drop-shadow(-1px -5px 6px rgba(255, 69, 0, 0.7)) drop-shadow(0 -8px 12px rgba(255, 0, 0, 0.5));
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg) translateY(0);
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.8)) drop-shadow(0 -2px 4px rgba(255, 69, 0, 0.6)) drop-shadow(0 -4px 8px rgba(255, 0, 0, 0.4));
+  }
+}
+
 .lb-rank {
   font-size: 1.5rem;
   width: 40px;

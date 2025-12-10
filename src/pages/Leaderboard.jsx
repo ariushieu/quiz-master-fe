@@ -77,7 +77,15 @@ export default function Leaderboard() {
                                 </div>
                             </div>
                             <div className="lb-streak">
-                                <span className="lb-streak-value">🔥 {user.streak}</span>
+                                <span className="lb-streak-value">
+                                    <span
+                                        className={user.streak > 0 ? "streak-fire" : "streak-static"}
+                                        data-text={user.streak > 0 ? "🔥" : ""}
+                                    >
+                                        🔥
+                                    </span>
+                                    {user.streak}
+                                </span>
                                 <span className="lb-streak-label">day streak</span>
                             </div>
                         </Link>
