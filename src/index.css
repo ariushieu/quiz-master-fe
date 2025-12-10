@@ -1273,47 +1273,80 @@ h4 {
   font-weight: 600;
 }
 
-/* ===== EXCLUSIVE BADGES ===== */
+/* ===== EXCLUSIVE BADGES (Dark Platinum Theme) ===== */
 .achievement-card.exclusive {
-  border: 2px solid #fbbf24;
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
-  box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
   position: relative;
+  background: transparent;
+  padding: 18px;
   overflow: hidden;
+  z-index: 0;
+  border: none;
+  box-shadow: 0 0 25px rgba(15, 23, 42, 0.5);
+  /* Deep Shadow */
 }
 
+/* Spinning Lightning Border (Silver & Ice Blue) */
 .achievement-card.exclusive::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.1),
-      transparent);
-  animation: shine 3s infinite;
+  top: 50%;
+  left: 50%;
+  width: 250%;
+  height: 250%;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(transparent 0deg,
+      transparent 280deg,
+      #38bdf8 300deg,
+      /* Light Blue */
+      #94a3b8 340deg,
+      /* Silver */
+      #ffffff 360deg
+      /* White */
+    );
+  animation: rotate-lightning 4s linear infinite;
+  z-index: -2;
 }
 
-@keyframes shine {
+/* Inner Background (Dark Matte Slate) */
+.achievement-card.exclusive::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  /* Slate 800 -> 900 */
+  border-radius: calc(var(--radius-md) - 1px);
+  z-index: -1;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+  /* Inner Vignette */
+}
+
+@keyframes rotate-lightning {
   0% {
-    left: -100%;
+    transform: translate(-50%, -50%) rotate(0deg);
   }
 
-  50%,
   100% {
-    left: 100%;
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
-.achievement-card.exclusive .achievement-check {
-  color: #fbbf24;
-  text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+/* Text Styles (Silver/Platinum) */
+.achievement-card.exclusive .achievement-check,
+.achievement-card.exclusive .achievement-name {
+  color: #e2e8f0;
+  /* Slate 200 */
+  text-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+  /* Soft Blue Glow */
+  font-weight: 700;
 }
 
-.achievement-card.exclusive .achievement-name {
-  color: #fbbf24;
+.achievement-card.exclusive .achievement-desc {
+  color: #94a3b8;
+  /* Slate 400 */
+}
+
+.achievement-card.exclusive .achievement-icon {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
 }
 
 .badge-exclusive {

@@ -115,7 +115,7 @@ export default function Profile() {
                             backdropFilter: 'blur(4px)',
                             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
                         }}>
-                            <span style={{ fontSize: '1.2rem' }}>📅</span>
+                            {/* <span style={{ fontSize: '1.2rem' }}>📅</span> */}
                             <span style={{
                                 fontSize: '0.9rem',
                                 color: 'var(--text-secondary)',
