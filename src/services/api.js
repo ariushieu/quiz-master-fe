@@ -33,8 +33,12 @@ export const authAPI = {
         return data;
     },
 
-    getMe: async () => {
-        const res = await fetch(`${API_URL}/auth/me`, {
+    getMe: async (timezoneOffset) => {
+        const url = timezoneOffset !== undefined
+            ? `${API_URL}/auth/me?timezoneOffset=${timezoneOffset}`
+            : `${API_URL}/auth/me`;
+
+        const res = await fetch(url, {
             headers: authHeaders()
         });
         const data = await res.json();

@@ -15,7 +15,8 @@ export function AuthProvider({ children }) {
         const token = localStorage.getItem('token');
         if (token) {
             try {
-                const userData = await authAPI.getMe();
+                const timezoneOffset = new Date().getTimezoneOffset();
+                const userData = await authAPI.getMe(timezoneOffset);
                 setUser(userData);
             } catch (error) {
                 localStorage.removeItem('token');
