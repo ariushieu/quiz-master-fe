@@ -43,21 +43,28 @@ export default function Study() {
     };
 
     const handleReview = async (quality) => {
-        try {
-            await studyAPI.submitReview(id, cards[currentIndex].cardIndex, quality, new Date().getTimezoneOffset());
+        // Optimistic UI: Update state immediately
+        const nextIndex = currentIndex + 1;
+        const isComplete = nextIndex >= cards.length;
 
-            setStats(prev => ({ ...prev, studied: prev.studied + 1 }));
+        // Capture current values for API call
+        const cardToReview = cards[currentIndex];
 
-            if (currentIndex >= cards.length - 1) {
-                setSessionComplete(true);
-                // Track for quest
-                localStorage.setItem('quest_study', 'true');
-            } else {
-                setCurrentIndex(currentIndex + 1);
-            }
-        } catch (err) {
-            console.error('Review error:', err);
+        // Update stats optimistically
+        setStats(prev => ({ ...prev, studied: prev.studied + 1 }));
+
+        if (isComplete) {
+            setSessionComplete(true);
+            // Track for quest
+            localStorage.setItem('quest_study', 'true');
+        } else {
+            setCurrentIndex(nextIndex);
         }
+
+        // Background API call - Fire and forget (mostly)
+        // We catch errors to log them, but we don't revert UI to avoid jarring experience
+        studyAPI.submitReview(id, cardToReview.cardIndex, quality, new Date().getTimezoneOffset())
+            .catch(err => console.error('Background review sync error:', err));
     };
 
     const handleAskAI = () => {
