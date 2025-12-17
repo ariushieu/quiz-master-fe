@@ -1363,154 +1363,318 @@ h4 {
 }
 
 /* ===== GAMIFICATION - LEADERBOARD ===== */
-.leaderboard-list {
+.podium-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 40px 0 60px;
+  position: relative;
+}
+
+.podium-item {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
-.leaderboard-item {
+.podium-item.rank-1 {
+  z-index: 2;
+  transform: scale(1.15) translateY(-20px);
+}
+
+.podium-item.rank-2 {
+  order: -1;
+  /* Move to left */
+  transform: translateY(10px);
+}
+
+.podium-item.rank-3 {
+  order: 1;
+  /* Move to right */
+  transform: translateY(10px);
+}
+
+/* Avatar Container with Ring */
+.podium-avatar-container {
+  position: relative;
+  margin-bottom: 12px;
+  padding: 4px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+}
+
+/* Gold */
+.podium-item.gold .podium-avatar-container {
+  background: linear-gradient(135deg, #ffd700 0%, #f59e0b 100%);
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+}
+
+/* Silver */
+.podium-item.silver .podium-avatar-container {
+  background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+  box-shadow: 0 0 20px rgba(148, 163, 184, 0.3);
+}
+
+/* Bronze */
+.podium-item.bronze .podium-avatar-container {
+  background: linear-gradient(135deg, #fdba74 0%, #ca8a04 100%);
+  /* Adjusted closer to bronze/orange */
+  box-shadow: 0 0 20px rgba(202, 138, 4, 0.3);
+}
+
+.podium-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 4px solid var(--bg-base);
+  /* Match background to create "cutout" look */
+  object-fit: cover;
+  display: block;
+  background: var(--bg-surface);
+}
+
+.podium-item.rank-1 .podium-avatar,
+.podium-item.rank-1 .podium-avatar-placeholder {
+  width: 120px;
+  height: 120px;
+}
+
+.podium-avatar-placeholder {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 4px solid var(--bg-base);
   display: flex;
   align-items: center;
-  gap: 16px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 16px 20px;
-  transition: all var(--transition-base);
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  font-weight: 800;
+  font-size: 2rem;
 }
 
-.leaderboard-item:hover {
-  border-color: var(--border-hover);
+.podium-item.rank-1 .podium-avatar-placeholder {
+  font-size: 2.5rem;
 }
 
-.leaderboard-item.gold {
-  border-color: #ffd700;
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), transparent);
+/* Rank Badge (1, 2, 3) on Avatar */
+.podium-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(-10%, -10%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: white;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border: 2px solid var(--bg-base);
 }
 
-.leaderboard-item.silver {
-  border-color: #c0c0c0;
-  background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), transparent);
-}
-
-.leaderboard-item.bronze {
-  border-color: #cd7f32;
-  background: linear-gradient(135deg, rgba(205, 127, 50, 0.1), transparent);
-}
-
-/* Real 3D Fire Effect */
-.streak-fire {
-  display: inline-block;
-  position: relative;
-  /* 3D Fire Core */
-  filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.8)) drop-shadow(0 -2px 4px rgba(255, 69, 0, 0.6)) drop-shadow(0 -4px 8px rgba(255, 0, 0, 0.4));
-  animation: fire-3d 2s ease-in-out infinite;
-  transform-origin: center bottom;
-}
-
-@keyframes fire-3d {
-  0% {
-    transform: scale(1) rotate(0deg) translateY(0);
-    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.8)) drop-shadow(0 -2px 4px rgba(255, 69, 0, 0.6)) drop-shadow(0 -4px 8px rgba(255, 0, 0, 0.4));
-  }
-
-  25% {
-    transform: scale(1.1) rotate(-2deg) translateY(-1px);
-    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.9)) drop-shadow(-2px -5px 6px rgba(255, 69, 0, 0.7)) drop-shadow(-1px -8px 12px rgba(255, 0, 0, 0.5));
-  }
-
-  50% {
-    transform: scale(1.05) rotate(2deg) translateY(-2px);
-    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 1)) drop-shadow(2px -6px 8px rgba(255, 69, 0, 0.8)) drop-shadow(1px -10px 15px rgba(255, 0, 0, 0.6));
-  }
-
-  75% {
-    transform: scale(1.15) rotate(-1deg) translateY(-1px);
-    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.9)) drop-shadow(-1px -5px 6px rgba(255, 69, 0, 0.7)) drop-shadow(0 -8px 12px rgba(255, 0, 0, 0.5));
-  }
-
-  100% {
-    transform: scale(1) rotate(0deg) translateY(0);
-    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.8)) drop-shadow(0 -2px 4px rgba(255, 69, 0, 0.6)) drop-shadow(0 -4px 8px rgba(255, 0, 0, 0.4));
-  }
-}
-
-.lb-rank {
-  font-size: 1.5rem;
-  width: 40px;
-  text-align: center;
-}
-
-.lb-user {
-  flex: 1;
-}
-
-.lb-username {
-  font-weight: 600;
-  color: var(--text-primary);
+.podium-item.gold .podium-badge {
+  background: #f59e0b;
+  width: 32px;
+  height: 32px;
   font-size: 1.1rem;
 }
 
-.lb-stats {
-  display: flex;
-  gap: 16px;
-  margin-top: 4px;
-  font-size: 0.8rem;
-  color: var(--text-muted);
+.podium-item.silver .podium-badge {
+  background: #94a3b8;
 }
 
-.lb-xp {
-  text-align: right;
+.podium-item.bronze .podium-badge {
+  background: #ca8a04;
 }
 
-.lb-xp-value {
-  font-size: 1.5rem;
+/* User Info */
+.podium-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 4px;
+}
+
+.podium-score {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.podium-item.gold .podium-score {
+  color: #fbbf24;
+}
+
+.podium-item.silver .podium-score {
+  color: #cbd5e1;
+}
+
+.podium-item.bronze .podium-score {
+  color: #fdba74;
+}
+
+.podium-rank-label {
+  position: absolute;
+  top: -40px;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: var(--primary);
-  display: block;
 }
 
-.lb-xp-label {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
+.podium-item.gold .podium-rank-label {
+  color: #fbbf24;
 }
 
-/* Navbar user link */
-.navbar-user-link {
+.podium-item.silver .podium-rank-label {
+  color: #94a3b8;
+}
+
+.podium-item.bronze .podium-rank-label {
+  color: #ca8a04;
+}
+
+
+/* Leaderboard List (Rank 4+) */
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.leaderboard-row {
   display: flex;
   align-items: center;
-}
-
-.navbar-user-link:hover .navbar-user {
-  color: var(--primary-light);
-}
-
-/* Leaderboard clickable and badge */
-.leaderboard-item {
+  padding: 12px 0;
+  background: transparent;
+  color: var(--text-primary);
+  transition: background 0.2s;
   text-decoration: none;
-  color: inherit;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.lb-badge {
-  margin-left: 8px;
-  font-size: 1rem;
+.leaderboard-row:hover {
+  background: rgba(255, 255, 255, 0.03);
 }
 
-.lb-streak {
-  text-align: right;
+.leaderboard-row:last-child {
+  border-bottom: none;
 }
 
-.lb-streak-value {
-  font-size: 1.5rem;
+.lb-rank-num {
+  width: 40px;
+  font-size: 1.25rem;
   font-weight: 700;
-  display: block;
+  color: var(--text-primary);
+  text-align: center;
+  margin-right: 12px;
 }
 
-.lb-streak-label {
-  font-size: 0.75rem;
+.lb-avatar-small {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  margin-right: 16px;
+}
+
+.lb-avatar-small img,
+.lb-avatar-placeholder-small {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  padding: 2px;
+  /* Gap between image and border */
+}
+
+/* Basic Green Border for List */
+.lb-avatar-small.green-border img,
+.lb-avatar-small.green-border .lb-avatar-placeholder-small {
+  border: 2px solid var(--success);
+  /* Green basic */
+}
+
+.lb-avatar-placeholder-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+}
+
+.lb-status-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 18px;
+  height: 18px;
+  background: #ec4899;
+  border: 2px solid var(--bg-base);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lb-status-dot.online {
+  background: var(--success);
+}
+
+.lb-status-dot::after {
+  /* Little graph icon bars simulation */
+  content: '🔥';
+  font-size: 10px;
+  color: white;
+}
+
+/* User Info in Row */
+.lb-user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.lb-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Score Column */
+.lb-score-col {
+  text-align: right;
+  min-width: 80px;
+}
+
+.lb-score-label {
+  font-size: 0.7rem;
   color: var(--text-muted);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.lb-score-val {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-primary);
 }
 
 /* ===== MOBILE RESPONSIVE ===== */
