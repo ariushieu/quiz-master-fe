@@ -78,7 +78,7 @@ export default function Leaderboard() {
                 <div className="podium-container" style={{ marginTop: '60px' }}>
                     {/* Rank 2 - Silver */}
                     {top3[1] && (
-                        <div className="podium-item rank-2 silver">
+                        <Link to={`/user/${top3[1].username}`} className="podium-item rank-2 silver">
                             <div className="podium-rank-label">Top 2</div>
                             <div className="podium-avatar-container">
                                 <Avatar
@@ -93,12 +93,12 @@ export default function Leaderboard() {
                                 <div className="podium-name">{top3[1].username}</div>
                                 <div className="podium-score">{top3[1].streak} ngày</div>
                             </div>
-                        </div>
+                        </Link>
                     )}
 
                     {/* Rank 1 - Gold */}
                     {top3[0] && (
-                        <div className="podium-item rank-1 gold">
+                        <Link to={`/user/${top3[0].username}`} className="podium-item rank-1 gold">
                             <div className="podium-rank-label" style={{ color: '#fbbf24', top: '-45px' }}>Top 1</div>
                             <div className="podium-avatar-container">
                                 <Avatar
@@ -113,12 +113,12 @@ export default function Leaderboard() {
                                 <div className="podium-name">{top3[0].username}</div>
                                 <div className="podium-score">{top3[0].streak} ngày</div>
                             </div>
-                        </div>
+                        </Link>
                     )}
 
                     {/* Rank 3 - Bronze */}
                     {top3[2] && (
-                        <div className="podium-item rank-3 bronze">
+                        <Link to={`/user/${top3[2].username}`} className="podium-item rank-3 bronze">
                             <div className="podium-rank-label">Top 3</div>
                             <div className="podium-avatar-container">
                                 <Avatar
@@ -133,7 +133,7 @@ export default function Leaderboard() {
                                 <div className="podium-name">{top3[2].username}</div>
                                 <div className="podium-score">{top3[2].streak} ngày</div>
                             </div>
-                        </div>
+                        </Link>
                     )}
                 </div>
 
