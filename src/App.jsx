@@ -13,8 +13,11 @@ import Quiz from './pages/Quiz';
 import Profile from './pages/Profile';
 import Leaderboard from './pages/Leaderboard';
 import UserProfile from './pages/UserProfile';
-import AdminBadges from './pages/AdminBadges';
+import AdminDashboard from './pages/AdminDashboard';
 import Explore from './pages/Explore';
+import ReadingList from './pages/ReadingList';
+import ReadingPractice from './pages/ReadingPractice';
+import CreateReading from './pages/CreateReading';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -117,10 +120,34 @@ function AppContent() {
           }
         />
         <Route
-          path="/admin/badges"
+          path="/admin"
           element={
             <ProtectedRoute>
-              <AdminBadges />
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reading"
+          element={
+            <ProtectedRoute>
+              <ReadingList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reading/create"
+          element={
+            <ProtectedRoute>
+              <CreateReading />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reading/:id"
+          element={
+            <ProtectedRoute>
+              <ReadingPractice />
             </ProtectedRoute>
           }
         />

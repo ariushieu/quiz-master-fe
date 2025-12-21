@@ -794,8 +794,15 @@ h4 {
   margin-bottom: 24px;
 }
 
-.flex {
-  display: flex;
+
+/* ===== SCROLLBAR UTILITIES ===== */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }
 
 .flex-center {
