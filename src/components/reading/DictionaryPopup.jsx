@@ -1,16 +1,70 @@
 import React from 'react';
 
 const DictionaryPopup = ({ position, word, definition, onClose, onAddToSet, mode = 'menu', onTranslate, onHighlight, isHighlighted, onRemoveHighlight }) => {
+    const popupRef = React.useRef(null);
+    const [style, setStyle] = React.useState({
+        opacity: 0, // Start invisible to measure
+        top: position.top,
+        left: position.left,
+        arrowLeft: '50%',
+        transform: 'translate(-50%, -100%)'
+    });
+
+    React.useLayoutEffect(() => {
+        if (popupRef.current) {
+            const rect = popupRef.current.getBoundingClientRect();
+            const width = rect.width;
+            const screenWidth = window.innerWidth;
+            const PADDING = 16; // Safety margin from screen edge
+
+            let newLeft = position.left;
+            let newTransform = 'translate(-50%, -100%)';
+            let newArrowLeft = '50%';
+
+            // Check Left Overflow
+            // Left edge would be: position.left - width/2
+            if (position.left - width / 2 < PADDING) {
+                // Pin to left
+                newLeft = PADDING;
+                newTransform = 'translate(0, -100%)';
+                // Arrow points to original target relative to new left
+                // The arrow needs to be at (position.left - newLeft)
+                newArrowLeft = `${position.left - PADDING}px`;
+            }
+            // Check Right Overflow
+            // Right edge would be: position.left + width/2
+            else if (position.left + width / 2 > screenWidth - PADDING) {
+                // Pin to right
+                newLeft = screenWidth - PADDING;
+                newTransform = 'translate(-100%, -100%)';
+                // Arrow points to original target relative to new left (which is the right edge of popup)
+                // Distance from right edge of popup to target is (screenWidth - PADDING) - position.left
+                // So arrow from left is width - distance
+                newArrowLeft = `${width - ((screenWidth - PADDING) - position.left)}px`;
+            }
+
+            setStyle({
+                opacity: 1,
+                top: position.top,
+                left: newLeft,
+                transform: newTransform,
+                arrowLeft: newArrowLeft
+            });
+        }
+    }, [position.left, position.top, word, definition, mode]);
+
     if (!word) return null;
 
     return (
         <div
+            ref={popupRef}
             className="card dictionary-popup"
             style={{
                 position: 'fixed',
-                top: position.top,
-                left: position.left,
-                transform: 'translate(-50%, -100%)',
+                top: style.top,
+                left: style.left,
+                transform: style.transform,
+                opacity: style.opacity,
                 marginTop: '-12px',
                 zIndex: 1000,
                 padding: '16px',
@@ -18,7 +72,7 @@ const DictionaryPopup = ({ position, word, definition, onClose, onAddToSet, mode
                 maxWidth: '320px',
                 boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
                 border: '1px solid var(--border)',
-                animation: 'fadeIn 0.2s ease-out'
+                transition: 'opacity 0.1s ease-out, transform 0.1s ease-out, left 0.1s ease-out'
             }}
         >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
@@ -100,13 +154,14 @@ const DictionaryPopup = ({ position, word, definition, onClose, onAddToSet, mode
             <div style={{
                 position: 'absolute',
                 bottom: '-6px',
-                left: '50%',
+                left: style.arrowLeft,
                 transform: 'translateX(-50%) rotate(45deg)',
                 width: '12px',
                 height: '12px',
                 background: 'var(--bg-elevated)',
                 borderRight: '1px solid var(--border)',
-                borderBottom: '1px solid var(--border)'
+                borderBottom: '1px solid var(--border)',
+                transition: 'left 0.1s ease-out'
             }}></div>
         </div>
     );

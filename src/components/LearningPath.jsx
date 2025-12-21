@@ -184,7 +184,7 @@ export default function LearningPath() {
                         justifyContent: 'space-between'
                     }}
                 >
-                    <div className="flex" style={{ alignItems: 'center', gap: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                         <div style={{
                             padding: '10px',
                             background: 'var(--primary)',
@@ -202,7 +202,7 @@ export default function LearningPath() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex" style={{ alignItems: 'center', gap: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                         <div style={{ textAlign: 'right' }}>
                             <span style={{
                                 fontSize: '1.25rem',

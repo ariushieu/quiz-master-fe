@@ -50,7 +50,7 @@ const ReadingList = () => {
                 ) : error ? (
                     <div className="alert alert-error text-center">{error}</div>
                 ) : (
-                    <div className="grid grid-3" style={{ gap: '24px' }}>
+                    <div className="grid-responsive" style={{ gap: '24px' }}>
                         {passages.map((passage) => (
                             <Link
                                 to={`/reading/${passage._id}`}
@@ -93,7 +93,7 @@ const ReadingList = () => {
                                             {passage.level}
                                         </span>
                                         <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                                            {new Date(passage.createdAt).toLocaleDateString()}
+                                            {new Date(passage.createdAt).toLocaleDateString('en-GB')}
                                         </span>
                                     </div>
 

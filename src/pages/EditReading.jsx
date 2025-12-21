@@ -237,7 +237,7 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
                     {/* Basic Info */}
                     <div style={{ background: 'var(--bg-elevated)', borderRadius: '16px', border: '1px solid var(--border)', padding: '24px', marginBottom: '24px' }}>
                         <h2 style={{ fontSize: '1.2rem', fontWeight: '600', marginBottom: '20px' }}>Basic Information</h2>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+                        <div className="form-grid-3">
                             <div>
                                 <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', fontWeight: '500' }}>Title *</label>
                                 <input className="form-input" name="title" value={formData.title} onChange={handleInputChange} required style={{ width: '100%' }} />
@@ -286,7 +286,7 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
 
                                     <div style={{ padding: '16px' }}>
                                         {/* Group Settings */}
-                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+                                        <div className="form-grid-2" style={{ marginBottom: '12px' }}>
                                             <div>
                                                 <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Group Label</label>
                                                 <input className="form-input" value={group.groupLabel} onChange={(e) => updateGroup(gIndex, 'groupLabel', e.target.value)} style={{ width: '100%', fontSize: '0.9rem' }} />
@@ -308,7 +308,7 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
                                         <div style={{ borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                                                 <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Questions ({group.questions.length})</span>
-                                                <button type="button" onClick={() => addQuestion(gIndex)} style={{ padding: '4px 10px', background: 'var(--bg-elevated)', border: '1px solid var(--border)', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}>+ Add</button>
+                                                <button type="button" onClick={() => addQuestion(gIndex)} style={{ padding: '6px 12px', background: 'rgba(99, 102, 241, 0.1)', color: '#6366f1', border: '1px solid rgba(99, 102, 241, 0.3)', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600' }}>+ Add Question</button>
                                             </div>
 
                                             {group.questions.map((q, qIndex) => (
@@ -321,7 +321,7 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
                                                     </div>
                                                     <input className="form-input" value={q.subHeading || ''} onChange={(e) => updateQuestion(gIndex, qIndex, 'subHeading', e.target.value)} placeholder="Sub-heading (e.g. Advantages of cork stoppers)" style={{ width: '100%', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '6px', background: 'rgba(99, 102, 241, 0.05)' }} />
                                                     <input className="form-input" value={q.questionText} onChange={(e) => updateQuestion(gIndex, qIndex, 'questionText', e.target.value)} placeholder="Question text..." style={{ width: '100%', fontSize: '0.85rem', marginBottom: '8px' }} />
-                                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '8px' }}>
+                                                    <div className="form-grid-1-2">
                                                         <input className="form-input" value={q.correctAnswer} onChange={(e) => updateQuestion(gIndex, qIndex, 'correctAnswer', e.target.value)} placeholder="Answer" style={{ fontSize: '0.85rem', borderColor: 'rgba(34, 197, 94, 0.5)' }} />
                                                         <input className="form-input" value={q.explanation} onChange={(e) => updateQuestion(gIndex, qIndex, 'explanation', e.target.value)} placeholder="Explanation..." style={{ fontSize: '0.85rem' }} />
                                                     </div>

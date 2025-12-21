@@ -217,7 +217,7 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
                             Basic Information
                         </h2>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+                        <div className="form-grid-3">
                             <div>
                                 <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', fontWeight: '500' }}>Title *</label>
                                 <input
@@ -378,7 +378,7 @@ The text will preserve line breaks exactly as you paste it."
 
                                 {/* Group Settings */}
                                 <div style={{ padding: '20px' }}>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+                                    <div className="form-grid-2" style={{ marginBottom: '16px' }}>
                                         <div>
                                             <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Group Label</label>
                                             <input
@@ -422,11 +422,13 @@ The text will preserve line breaks exactly as you paste it."
                                                 onClick={() => addQuestionToGroup(gIndex)}
                                                 style={{
                                                     padding: '6px 12px',
-                                                    background: 'var(--bg-elevated)',
-                                                    border: '1px solid var(--border)',
+                                                    background: 'rgba(99, 102, 241, 0.1)',
+                                                    color: '#6366f1',
+                                                    border: '1px solid rgba(99, 102, 241, 0.3)',
                                                     borderRadius: '6px',
                                                     cursor: 'pointer',
-                                                    fontSize: '0.85rem'
+                                                    fontSize: '0.85rem',
+                                                    fontWeight: '600'
                                                 }}
                                             >
                                                 + Add Question
@@ -477,7 +479,7 @@ The text will preserve line breaks exactly as you paste it."
 
                                                 {/* Multiple choice options */}
                                                 {group.type === 'multiple-choice' && (
-                                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '10px' }}>
+                                                    <div className="form-grid-2" style={{ marginBottom: '10px' }}>
                                                         {[0, 1, 2, 3].map(optIndex => (
                                                             <input
                                                                 key={optIndex}
@@ -491,7 +493,7 @@ The text will preserve line breaks exactly as you paste it."
                                                     </div>
                                                 )}
 
-                                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '10px' }}>
+                                                <div className="form-grid-1-2">
                                                     <div>
                                                         <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Correct Answer *</label>
                                                         <input

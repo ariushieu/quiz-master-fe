@@ -87,21 +87,30 @@ const ReadingPractice = () => {
     if (!passage) return null;
 
     return (
-        <div style={{ height: 'calc(100vh - 74px)', marginTop: '0', display: 'flex', overflow: 'hidden' }}>
+        <div className="split-pane-container">
             {/* Left Panel: Reading Text (Scrollable) */}
-            <div style={{ width: '50%', height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column', borderRight: '1px solid var(--border)' }}>
-                <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)', background: 'var(--bg-elevated)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div className="split-pane-panel text-panel" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)', background: 'var(--bg-elevated)', display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
                         <Link to="/reading" className="btn btn-sm btn-secondary">
                             <svg style={{ width: '16px', height: '16px' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
                             Back
                         </Link>
-                        <div style={{ fontWeight: 'bold', fontSize: '1.2rem', fontFamily: 'monospace', color: timeLeft < 300 ? '#ff4d4f' : 'var(--primary)' }}>
+                        <div style={{
+                            fontWeight: 'bold',
+                            fontSize: '1.2rem',
+                            fontFamily: 'monospace',
+                            color: timeLeft < 300 ? '#ff4d4f' : 'var(--primary)',
+                            background: 'rgba(0,0,0,0.2)',
+                            padding: '4px 8px',
+                            borderRadius: '6px',
+                            lineHeight: 1
+                        }}>
                             ⏱ {formatTime(timeLeft)}
                         </div>
                     </div>
 
-                    <span className="text-secondary" style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <span className="text-secondary" style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
                         {passage.level} • {passage.topic}
                     </span>
                 </div>
@@ -111,7 +120,7 @@ const ReadingPractice = () => {
             </div>
 
             {/* Right Panel: Questions (Scrollable) */}
-            <div style={{ width: '50%', height: '100%', overflowY: 'auto', background: 'var(--bg-base)' }} className="no-scrollbar">
+            <div className="split-pane-panel no-scrollbar" style={{ overflowY: 'auto', background: 'var(--bg-base)' }}>
                 <div style={{ maxWidth: '800px', margin: '0 auto', paddingBottom: '80px', padding: '24px' }}>
                     <div className="card text-center" style={{ marginBottom: '24px' }}>
                         <h2 style={{ marginBottom: '12px' }}>Questions</h2>
