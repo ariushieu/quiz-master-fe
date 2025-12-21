@@ -2,6 +2,14 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { statsAPI } from '../services/api';
 
+// Helper: format seconds to "Xh Ym" or "Ym"
+const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    if (hours > 0) return `${hours}h ${mins}m`;
+    return `${mins}m`;
+};
+
 const Avatar = ({ src, username, className, placeholderClassName }) => {
     const [error, setError] = useState(false);
 
@@ -71,7 +79,8 @@ export default function Leaderboard() {
         <div className="page">
             <div className="container" style={{ maxWidth: '600px' }}>
                 <div className="page-header" style={{ textAlign: 'center', marginBottom: '90px' }}>
-                    <h1 className="page-title">Bảng Xếp Hạng Streak</h1>
+                    <h1 className="page-title">Bảng Xếp Hạng Tuần</h1>
+                    <p className="text-secondary" style={{ marginTop: '8px' }}>Reset vào thứ 2 hàng tuần</p>
                 </div>
 
                 {/* PODIUM SECTION */}
@@ -91,7 +100,7 @@ export default function Leaderboard() {
                             </div>
                             <div className="podium-info">
                                 <div className="podium-name">{top3[1].username}</div>
-                                <div className="podium-score">{top3[1].streak} ngày</div>
+                                <div className="podium-score">{formatTime(top3[1].weeklyTime)}</div>
                             </div>
                         </Link>
                     )}
@@ -111,7 +120,7 @@ export default function Leaderboard() {
                             </div>
                             <div className="podium-info">
                                 <div className="podium-name">{top3[0].username}</div>
-                                <div className="podium-score">{top3[0].streak} ngày</div>
+                                <div className="podium-score">{formatTime(top3[0].weeklyTime)}</div>
                             </div>
                         </Link>
                     )}
@@ -131,7 +140,7 @@ export default function Leaderboard() {
                             </div>
                             <div className="podium-info">
                                 <div className="podium-name">{top3[2].username}</div>
-                                <div className="podium-score">{top3[2].streak} ngày</div>
+                                <div className="podium-score">{formatTime(top3[2].weeklyTime)}</div>
                             </div>
                         </Link>
                     )}
@@ -166,8 +175,8 @@ export default function Leaderboard() {
                                 </div>
 
                                 <div className="lb-score-col">
-                                    <div className="lb-score-label">Streak</div>
-                                    <div className="lb-score-val">{user.streak} ngày</div>
+                                    <div className="lb-score-label">Tuần này</div>
+                                    <div className="lb-score-val">{formatTime(user.weeklyTime)}</div>
                                 </div>
                             </Link>
                         );

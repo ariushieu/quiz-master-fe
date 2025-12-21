@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { studyAPI, setsAPI } from '../services/api';
 import FlashCard from '../components/FlashCard';
 import AIChat from '../components/AIChat';
+import StudyTimer from '../components/StudyTimer';
 
 export default function Study() {
     const { id } = useParams();
@@ -229,6 +230,7 @@ export default function Study() {
                     onClose={() => setShowAIChat(false)}
                 />
             )}
+            <StudyTimer isActive={true} />
         </div>
     );
 }

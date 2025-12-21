@@ -79,11 +79,23 @@ export default function UserProfile() {
                 </div>
 
                 {/* Stats */}
-                <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+                <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
                     <div className="stat-card">
                         <div className="stat-icon">📚</div>
                         <div className="stat-value">{profile.stats?.totalCardsStudied || 0}</div>
                         <div className="stat-label">Cards Studied</div>
+                    </div>
+                    <div className="stat-card">
+                        <div className="stat-icon">⏱️</div>
+                        <div className="stat-value">
+                            {(() => {
+                                const secs = profile.stats?.totalStudyTime || 0;
+                                const h = Math.floor(secs / 3600);
+                                const m = Math.floor((secs % 3600) / 60);
+                                return h > 0 ? `${h}h ${m}m` : `${m}m`;
+                            })()}
+                        </div>
+                        <div className="stat-label">Total Time</div>
                     </div>
                     <div className="stat-card">
                         <div className="stat-icon">🔥</div>

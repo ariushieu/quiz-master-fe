@@ -4,6 +4,7 @@ import readingService from '../services/readingService';
 import ReadingText from '../components/reading/ReadingText';
 import QuestionGroup from '../components/reading/QuestionGroup';
 import Toast from '../components/Toast';
+import StudyTimer from '../components/StudyTimer';
 
 const ReadingPractice = () => {
     const { id } = useParams();
@@ -194,6 +195,7 @@ const ReadingPractice = () => {
                     onClose={handleCloseToast}
                 />
             )}
+            <StudyTimer isActive={!loading && !showResults} />
         </div>
     );
 };

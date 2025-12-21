@@ -74,7 +74,7 @@ export default function Navbar() {
                         <li><Link to="/explore" onClick={() => setMobileMenuOpen(false)}>Explore</Link></li>
                         <li><Link to="/create" onClick={() => setMobileMenuOpen(false)}>Create</Link></li>
                         <li><Link to="/reading" onClick={() => setMobileMenuOpen(false)}>Reading</Link></li>
-                        <li><Link to="/leaderboard" onClick={() => setMobileMenuOpen(false)}>Top Streak</Link></li>
+                        <li><Link to="/leaderboard" onClick={() => setMobileMenuOpen(false)}>Leaderboard</Link></li>
 
                         {/* Desktop Avatar Dropdown (Hidden on Mobile) */}
                         <li className="nav-dropdown desktop-only" ref={dropdownRef}>

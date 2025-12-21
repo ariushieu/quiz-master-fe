@@ -141,6 +141,18 @@ export const studyAPI = {
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
         return data;
+    },
+
+    trackTime: async (duration) => {
+        const timezoneOffset = new Date().getTimezoneOffset();
+        const res = await fetch(`${API_URL}/study/track-time`, {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify({ duration, timezoneOffset })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        return data;
     }
 };
 
