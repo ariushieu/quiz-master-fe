@@ -7,7 +7,13 @@ const ReadingContent = React.memo(({ content }) => (
     <>
         <div
             className="reading-content"
-            style={{ fontSize: '1.2rem', lineHeight: '1.8', color: 'var(--text-secondary)' }}
+            style={{
+                fontSize: '1.2rem',
+                lineHeight: '1.8',
+                color: 'var(--text-secondary)',
+                whiteSpace: 'pre-wrap',
+                textAlign: 'justify'
+            }}
             dangerouslySetInnerHTML={{ __html: content }}
         />
         <style>{`

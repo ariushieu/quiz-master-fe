@@ -37,8 +37,30 @@ const createPassage = async (passageData) => {
     }
 };
 
+const updatePassage = async (id, passageData) => {
+    try {
+        const response = await axios.put(`${API_URL}/${id}`, passageData, getAuthHeader());
+        return response.data;
+    } catch (error) {
+        console.error('Error updating reading passage:', error);
+        throw error;
+    }
+};
+
+const deletePassage = async (id) => {
+    try {
+        const response = await axios.delete(`${API_URL}/${id}`, getAuthHeader());
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting reading passage:', error);
+        throw error;
+    }
+};
+
 export default {
     getPassages,
     getPassageById,
-    createPassage
+    createPassage,
+    updatePassage,
+    deletePassage
 };

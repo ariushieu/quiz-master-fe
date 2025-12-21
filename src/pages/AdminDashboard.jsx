@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { adminAPI } from '../services/api';
+import readingService from '../services/readingService';
 
 export default function AdminDashboard() {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState('content');
     const [users, setUsers] = useState([]);
     const [badges, setBadges] = useState([]);
+    const [passages, setPassages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
@@ -20,12 +22,14 @@ export default function AdminDashboard() {
 
     const loadData = async () => {
         try {
-            const [usersData, badgesData] = await Promise.all([
+            const [usersData, badgesData, passagesData] = await Promise.all([
                 adminAPI.getUsers(),
-                adminAPI.getBadges()
+                adminAPI.getBadges(),
+                readingService.getPassages()
             ]);
             setUsers(usersData);
             setBadges(badgesData);
+            setPassages(passagesData);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -58,6 +62,23 @@ export default function AdminDashboard() {
             await loadData();
         } catch (err) {
             setError(err.message);
+        } finally {
+            setActionLoading(false);
+        }
+    };
+
+    const handleDeletePassage = async (id, title) => {
+        if (!window.confirm(`Bạn có chắc muốn xóa bài "${title}"?`)) return;
+
+        setActionLoading(true);
+        setError('');
+        setSuccessMsg('');
+        try {
+            await readingService.deletePassage(id);
+            setSuccessMsg('Passage deleted successfully');
+            await loadData();
+        } catch (err) {
+            setError(err.message || 'Failed to delete passage');
         } finally {
             setActionLoading(false);
         }
@@ -205,26 +226,116 @@ export default function AdminDashboard() {
                                 </Link>
                             </div>
 
-                            <div style={{ padding: '48px 32px', textAlign: 'center' }}>
-                                <div style={{
-                                    width: '80px',
-                                    height: '80px',
-                                    margin: '0 auto 20px',
-                                    borderRadius: '20px',
-                                    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2))',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    fontSize: '2rem'
-                                }}>
-                                    📖
-                                </div>
-                                <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>
-                                    Manage all reading passages from here
-                                </p>
-                                <Link to="/reading" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: '500' }}>
-                                    View All Passages →
-                                </Link>
+                            <div style={{ padding: '16px' }}>
+                                {passages.length === 0 ? (
+                                    <div style={{ padding: '48px', textAlign: 'center' }}>
+                                        <div style={{
+                                            width: '80px',
+                                            height: '80px',
+                                            margin: '0 auto 20px',
+                                            borderRadius: '20px',
+                                            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2))',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            fontSize: '2rem'
+                                        }}>
+                                            📖
+                                        </div>
+                                        <p style={{ color: 'var(--text-secondary)' }}>No passages yet. Create your first one!</p>
+                                    </div>
+                                ) : (
+                                    passages.map(p => (
+                                        <div
+                                            key={p._id}
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                                padding: '16px 20px',
+                                                background: 'var(--bg-surface)',
+                                                borderRadius: '12px',
+                                                marginBottom: '10px',
+                                                border: '1px solid var(--border)'
+                                            }}
+                                        >
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                                <div style={{
+                                                    width: '48px',
+                                                    height: '48px',
+                                                    borderRadius: '12px',
+                                                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    color: '#fff',
+                                                    fontWeight: '700'
+                                                }}>
+                                                    📄
+                                                </div>
+                                                <div>
+                                                    <div style={{ fontWeight: '600', marginBottom: '4px' }}>{p.title}</div>
+                                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', gap: '12px' }}>
+                                                        <span>{p.level}</span>
+                                                        <span>•</span>
+                                                        <span>{p.topic}</span>
+                                                        <span>•</span>
+                                                        <span>{p.questions?.length || 0} questions</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                                <Link
+                                                    to={`/reading/${p._id}`}
+                                                    style={{
+                                                        padding: '8px 16px',
+                                                        background: 'var(--bg-elevated)',
+                                                        border: '1px solid var(--border)',
+                                                        borderRadius: '8px',
+                                                        color: 'var(--text-primary)',
+                                                        textDecoration: 'none',
+                                                        fontSize: '0.85rem',
+                                                        fontWeight: '500'
+                                                    }}
+                                                >
+                                                    View
+                                                </Link>
+                                                <Link
+                                                    to={`/reading/edit/${p._id}`}
+                                                    style={{
+                                                        padding: '8px 16px',
+                                                        background: 'rgba(59, 130, 246, 0.2)',
+                                                        border: 'none',
+                                                        borderRadius: '8px',
+                                                        color: '#3b82f6',
+                                                        textDecoration: 'none',
+                                                        fontSize: '0.85rem',
+                                                        fontWeight: '500'
+                                                    }}
+                                                >
+                                                    Edit
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleDeletePassage(p._id, p.title)}
+                                                    disabled={actionLoading}
+                                                    style={{
+                                                        padding: '8px 16px',
+                                                        background: 'rgba(239, 68, 68, 0.2)',
+                                                        border: 'none',
+                                                        borderRadius: '8px',
+                                                        color: '#ef4444',
+                                                        cursor: actionLoading ? 'not-allowed' : 'pointer',
+                                                        fontSize: '0.85rem',
+                                                        fontWeight: '500',
+                                                        opacity: actionLoading ? 0.5 : 1
+                                                    }}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
                     </div>

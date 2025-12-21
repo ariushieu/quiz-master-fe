@@ -134,7 +134,7 @@ const QuestionGroup = ({ questions, answers, onAnswerChange, showResults }) => {
                                             {isCorrect(q, answers[q._id]) ? 'Correct!' : `Incorrect. Correct answer: ${q.correctAnswer}`}
                                         </p>
                                         {q.explanation && (
-                                            <p className="opacity-90 leading-relaxed text-sm">Example: {q.explanation}</p>
+                                            <p className="opacity-90 leading-relaxed text-sm">In the passage: {q.explanation}</p>
                                         )}
                                     </div>
                                 )}

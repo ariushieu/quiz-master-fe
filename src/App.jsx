@@ -18,6 +18,7 @@ import Explore from './pages/Explore';
 import ReadingList from './pages/ReadingList';
 import ReadingPractice from './pages/ReadingPractice';
 import CreateReading from './pages/CreateReading';
+import EditReading from './pages/EditReading';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -140,6 +141,14 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <CreateReading />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reading/edit/:id"
+          element={
+            <ProtectedRoute>
+              <EditReading />
             </ProtectedRoute>
           }
         />

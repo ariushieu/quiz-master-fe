@@ -89,7 +89,7 @@ export default function Navbar() {
                                             className="dropdown-item"
                                             onClick={() => setDropdownOpen(false)}
                                         >
-                                            🛡️ Admin Dashboard
+                                            🛡️ Admin
                                         </Link>
                                     )}
                                     <button
