@@ -53,6 +53,7 @@ const EditReading = () => {
                 questionText: q.questionText || '',
                 correctAnswer: q.correctAnswer || '',
                 explanation: q.explanation || '',
+                subHeading: q.subHeading || '',
                 options: q.options || []
             });
         });
@@ -71,6 +72,7 @@ const EditReading = () => {
                     options: q.options || [],
                     correctAnswer: q.correctAnswer,
                     explanation: q.explanation,
+                    subHeading: q.subHeading || '',
                     groupLabel: group.groupLabel,
                     groupInstruction: group.groupInstruction
                 });
@@ -110,7 +112,7 @@ const EditReading = () => {
                 groupLabel: `Questions ${idx * 5 + 1}-${idx * 5 + 5}`,
                 groupInstruction: '',
                 type: 'fill-in-blank',
-                questions: [{ questionText: '', correctAnswer: '', explanation: '' }]
+                questions: [{ questionText: '', correctAnswer: '', explanation: '', subHeading: '' }]
             }]
         }));
     };
@@ -130,7 +132,7 @@ const EditReading = () => {
     // Question handlers
     const addQuestion = (gIndex) => {
         const newGroups = [...formData.questionGroups];
-        newGroups[gIndex].questions.push({ questionText: '', correctAnswer: '', explanation: '' });
+        newGroups[gIndex].questions.push({ questionText: '', correctAnswer: '', explanation: '', subHeading: '' });
         setFormData(prev => ({ ...prev, questionGroups: newGroups }));
     };
 
@@ -265,6 +267,7 @@ const EditReading = () => {
                                                             <button type="button" onClick={() => removeQuestion(gIndex, qIndex)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.75rem' }}>✕</button>
                                                         )}
                                                     </div>
+                                                    <input className="form-input" value={q.subHeading || ''} onChange={(e) => updateQuestion(gIndex, qIndex, 'subHeading', e.target.value)} placeholder="Sub-heading (e.g. Advantages of cork stoppers)" style={{ width: '100%', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '6px', background: 'rgba(99, 102, 241, 0.05)' }} />
                                                     <input className="form-input" value={q.questionText} onChange={(e) => updateQuestion(gIndex, qIndex, 'questionText', e.target.value)} placeholder="Question text..." style={{ width: '100%', fontSize: '0.85rem', marginBottom: '8px' }} />
                                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '8px' }}>
                                                         <input className="form-input" value={q.correctAnswer} onChange={(e) => updateQuestion(gIndex, qIndex, 'correctAnswer', e.target.value)} placeholder="Answer" style={{ fontSize: '0.85rem', borderColor: 'rgba(34, 197, 94, 0.5)' }} />

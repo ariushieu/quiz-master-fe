@@ -87,7 +87,7 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
                 groupInstruction: getDefaultInstruction(type, groupLabel),
                 type: type,
                 wordLimit: 'NO MORE THAN TWO WORDS',
-                questions: [{ questionText: '', correctAnswer: '', explanation: '' }]
+                questions: [{ questionText: '', correctAnswer: '', explanation: '', subHeading: '' }]
             }]
         }));
     };
@@ -123,7 +123,7 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
     // ========== Question Functions ==========
     const addQuestionToGroup = (groupIndex) => {
         const newGroups = [...formData.questionGroups];
-        newGroups[groupIndex].questions.push({ questionText: '', correctAnswer: '', explanation: '' });
+        newGroups[groupIndex].questions.push({ questionText: '', correctAnswer: '', explanation: '', subHeading: '' });
         setFormData(prev => ({ ...prev, questionGroups: newGroups }));
     };
 
@@ -164,6 +164,7 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
                     options: q.options || [],
                     correctAnswer: q.correctAnswer,
                     explanation: q.explanation,
+                    subHeading: q.subHeading || '',
                     wordLimit: group.wordLimit,
                     groupLabel: group.groupLabel,
                     groupInstruction: group.groupInstruction
@@ -451,6 +452,17 @@ The text will preserve line breaks exactly as you paste it."
                                                             ✕
                                                         </button>
                                                     )}
+                                                </div>
+
+                                                {/* Sub-heading for sections within a group */}
+                                                <div style={{ marginBottom: '8px' }}>
+                                                    <input
+                                                        className="form-input"
+                                                        value={q.subHeading || ''}
+                                                        onChange={(e) => updateQuestion(gIndex, qIndex, 'subHeading', e.target.value)}
+                                                        placeholder="Sub-heading (e.g. Advantages of cork stoppers) - leave empty if not needed"
+                                                        style={{ width: '100%', fontSize: '0.85rem', fontStyle: 'italic', background: 'rgba(99, 102, 241, 0.05)' }}
+                                                    />
                                                 </div>
 
                                                 <div style={{ marginBottom: '10px' }}>

@@ -29,6 +29,24 @@ const QuestionGroup = ({ questions, answers, onAnswerChange, showResults }) => {
 
                         {/* Question Card */}
                         <div className="card" style={{ padding: '24px', marginBottom: '0' }}>
+                            {/* Sub-heading if exists and different from previous */}
+                            {q.subHeading && (!prevQ || prevQ.subHeading !== q.subHeading) && (
+                                <div style={{
+                                    marginBottom: '16px',
+                                    paddingBottom: '12px',
+                                    borderBottom: '1px solid var(--border)'
+                                }}>
+                                    <h4 style={{
+                                        fontSize: '1rem',
+                                        fontWeight: '600',
+                                        color: 'var(--text-primary)',
+                                        margin: 0
+                                    }}>
+                                        {q.subHeading}
+                                    </h4>
+                                </div>
+                            )}
+
                             <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: '20px' }}>
                                 <span className="text-primary font-bold text-lg flex-shrink-0 select-none" style={{ marginRight: '8px', minWidth: '25px' }}>
                                     {index + 1}.
