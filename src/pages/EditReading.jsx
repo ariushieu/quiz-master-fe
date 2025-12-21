@@ -103,15 +103,56 @@ const EditReading = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    // Auto-generate instruction based on question type
+    const getDefaultInstruction = (type, groupLabel) => {
+        const match = groupLabel?.match(/(\d+[-–]\d+)/);
+        const range = match ? match[1] : '1-5';
+
+        switch (type) {
+            case 'true-false-not-given':
+                return `Do the following statements agree with the information given in Reading Passage?
+
+In boxes ${range} on your answer sheet, write
+
+TRUE    if the statement agrees with the information
+FALSE    if the statement contradicts the information
+NOT GIVEN    if there is no information on this`;
+
+            case 'multiple-choice':
+                return `Choose the correct letter, A, B, C or D.
+
+Write the correct letter in boxes ${range} on your answer sheet.`;
+
+            case 'fill-in-blank':
+                return `Complete the sentences below.
+
+Choose NO MORE THAN TWO WORDS from the passage for each answer.
+
+Write your answers in boxes ${range} on your answer sheet.`;
+
+            case 'matching':
+                return `Look at the following statements and the list of people below.
+
+Match each statement with the correct person.
+
+Write the correct letter A-F in boxes ${range} on your answer sheet.`;
+
+            default:
+                return '';
+        }
+    };
+
     // Group handlers
     const addGroup = () => {
         const idx = formData.questionGroups.length;
+        const groupLabel = `Questions ${idx * 5 + 1}-${idx * 5 + 5}`;
+        const type = 'fill-in-blank';
         setFormData(prev => ({
             ...prev,
             questionGroups: [...prev.questionGroups, {
-                groupLabel: `Questions ${idx * 5 + 1}-${idx * 5 + 5}`,
-                groupInstruction: '',
-                type: 'fill-in-blank',
+                groupLabel: groupLabel,
+                groupInstruction: getDefaultInstruction(type, groupLabel),
+                type: type,
                 questions: [{ questionText: '', correctAnswer: '', explanation: '', subHeading: '' }]
             }]
         }));
@@ -120,6 +161,17 @@ const EditReading = () => {
     const updateGroup = (gIndex, field, value) => {
         const newGroups = [...formData.questionGroups];
         newGroups[gIndex][field] = value;
+
+        // Auto-update instruction when type changes
+        if (field === 'type') {
+            newGroups[gIndex].groupInstruction = getDefaultInstruction(value, newGroups[gIndex].groupLabel);
+        }
+
+        // Update instruction's question range when groupLabel changes
+        if (field === 'groupLabel') {
+            newGroups[gIndex].groupInstruction = getDefaultInstruction(newGroups[gIndex].type, value);
+        }
+
         setFormData(prev => ({ ...prev, questionGroups: newGroups }));
     };
 
