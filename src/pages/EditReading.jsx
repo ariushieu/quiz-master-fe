@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import readingService from '../services/readingService';
 import Toast from '../components/Toast';
+import TableBuilder from '../components/reading/TableBuilder';
 
 const EditReading = () => {
     const { id } = useParams();
@@ -29,7 +30,8 @@ const EditReading = () => {
         { value: 'multiple-choice', label: 'Multiple Choice' },
         { value: 'true-false-not-given', label: 'True/False/Not Given' },
         { value: 'fill-in-blank', label: 'Fill in the Blank' },
-        { value: 'matching', label: 'Matching' }
+        { value: 'matching', label: 'Matching' },
+        { value: 'table-completion', label: 'Table Completion' }
     ];
 
     useEffect(() => {
@@ -42,21 +44,36 @@ const EditReading = () => {
 
         questions.forEach(q => {
             const key = q.groupLabel || 'Ungrouped';
-            if (!groupsMap[key]) {
-                groupsMap[key] = {
-                    groupLabel: q.groupLabel || 'Questions',
-                    groupInstruction: q.groupInstruction || '',
-                    type: q.type || 'fill-in-blank',
-                    questions: []
-                };
+            
+            if (q.type === 'table-completion') {
+                // For table-completion, store the entire structure
+                if (!groupsMap[key]) {
+                    groupsMap[key] = {
+                        groupLabel: q.groupLabel || 'Questions',
+                        groupInstruction: q.groupInstruction || '',
+                        type: 'table-completion',
+                        tableStructure: q.tableStructure || { headers: ['Column 1', 'Column 2'], rows: [] },
+                        questions: [] // Not used for table-completion
+                    };
+                }
+            } else {
+                // Regular questions
+                if (!groupsMap[key]) {
+                    groupsMap[key] = {
+                        groupLabel: q.groupLabel || 'Questions',
+                        groupInstruction: q.groupInstruction || '',
+                        type: q.type || 'fill-in-blank',
+                        questions: []
+                    };
+                }
+                groupsMap[key].questions.push({
+                    questionText: q.questionText || '',
+                    correctAnswer: q.correctAnswer || '',
+                    explanation: q.explanation || '',
+                    subHeading: q.subHeading || '',
+                    options: q.options || []
+                });
             }
-            groupsMap[key].questions.push({
-                questionText: q.questionText || '',
-                correctAnswer: q.correctAnswer || '',
-                explanation: q.explanation || '',
-                subHeading: q.subHeading || '',
-                options: q.options || []
-            });
         });
 
         return Object.values(groupsMap);
@@ -66,18 +83,34 @@ const EditReading = () => {
     const groupsToQuestions = (groups) => {
         const flat = [];
         groups.forEach(group => {
-            group.questions.forEach(q => {
+            if (group.type === 'table-completion') {
+                // For table-completion, create a single question with tableStructure
                 flat.push({
-                    questionText: q.questionText,
-                    type: group.type,
-                    options: q.options || [],
-                    correctAnswer: q.correctAnswer,
-                    explanation: q.explanation,
-                    subHeading: q.subHeading || '',
+                    questionText: '', // Not used for table-completion
+                    type: 'table-completion',
+                    options: [],
+                    correctAnswer: '', // Not used for table-completion
+                    explanation: '',
+                    subHeading: '',
                     groupLabel: group.groupLabel,
-                    groupInstruction: group.groupInstruction
+                    groupInstruction: group.groupInstruction,
+                    tableStructure: group.tableStructure
                 });
-            });
+            } else {
+                // Regular questions
+                group.questions.forEach(q => {
+                    flat.push({
+                        questionText: q.questionText,
+                        type: group.type,
+                        options: q.options || [],
+                        correctAnswer: q.correctAnswer,
+                        explanation: q.explanation,
+                        subHeading: q.subHeading || '',
+                        groupLabel: group.groupLabel,
+                        groupInstruction: group.groupInstruction
+                    });
+                });
+            }
         });
         return flat;
     };
@@ -137,6 +170,13 @@ Write your answers in boxes ${range} on your answer sheet.`;
 Match each statement with the correct person.
 
 Write the correct letter A-F in boxes ${range} on your answer sheet.`;
+
+            case 'table-completion':
+                return `Complete the table below.
+
+Choose NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer.
+
+Write your answers in boxes ${range} on your answer sheet.`;
 
             default:
                 return '';
@@ -272,7 +312,21 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
         }
     };
 
-    const totalQuestions = formData.questionGroups.reduce((sum, g) => sum + g.questions.length, 0);
+    const totalQuestions = formData.questionGroups.reduce((sum, g) => {
+        if (g.type === 'table-completion') {
+            // Count blanks in table
+            let blankCount = 0;
+            if (g.tableStructure && g.tableStructure.rows) {
+                g.tableStructure.rows.forEach(row => {
+                    row.cells.forEach(cell => {
+                        if (cell.type === 'blank') blankCount++;
+                    });
+                });
+            }
+            return sum + blankCount;
+        }
+        return sum + g.questions.length;
+    }, 0);
 
     if (loading) return <div className="loading"><div className="spinner"></div></div>;
 
@@ -356,14 +410,25 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
                                             <textarea className="form-input" value={group.groupInstruction} onChange={(e) => updateGroup(gIndex, 'groupInstruction', e.target.value)} style={{ width: '100%', fontSize: '0.95rem', minHeight: '160px', resize: 'vertical', lineHeight: '1.6' }} />
                                         </div>
 
-                                        {/* Questions */}
-                                        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                                                <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Questions ({group.questions.length})</span>
-                                                <button type="button" onClick={() => addQuestion(gIndex)} style={{ padding: '6px 12px', background: 'rgba(99, 102, 241, 0.1)', color: '#6366f1', border: '1px solid rgba(99, 102, 241, 0.3)', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600' }}>+ Add Question</button>
+                                        {/* Questions or Table Builder */}
+                                        {group.type === 'table-completion' ? (
+                                            <div style={{ borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
+                                                <div style={{ marginBottom: '10px' }}>
+                                                    <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Table Structure</span>
+                                                </div>
+                                                <TableBuilder
+                                                    tableStructure={group.tableStructure || { headers: ['Column 1', 'Column 2'], rows: [{ cells: [{ type: 'text', value: '' }, { type: 'text', value: '' }] }] }}
+                                                    onChange={(newTableStructure) => updateGroup(gIndex, 'tableStructure', newTableStructure)}
+                                                />
                                             </div>
+                                        ) : (
+                                            <div style={{ borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                                                    <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Questions ({group.questions.length})</span>
+                                                    <button type="button" onClick={() => addQuestion(gIndex)} style={{ padding: '6px 12px', background: 'rgba(99, 102, 241, 0.1)', color: '#6366f1', border: '1px solid rgba(99, 102, 241, 0.3)', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600' }}>+ Add Question</button>
+                                                </div>
 
-                                            {group.questions.map((q, qIndex) => (
+                                                {group.questions.map((q, qIndex) => (
                                                 <div key={qIndex} style={{ background: 'var(--bg-elevated)', borderRadius: '8px', padding: '10px', marginBottom: '8px', border: '1px solid var(--border)' }}>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                                                         <span style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--primary)' }}>Q{qIndex + 1}</span>
@@ -446,6 +511,7 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
                                                 </div>
                                             ))}
                                         </div>
+                                        )}
                                     </div>
                                 </div>
                             ))

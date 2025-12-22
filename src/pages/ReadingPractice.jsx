@@ -64,13 +64,32 @@ const ReadingPractice = () => {
         }
         
         let correct = 0;
-        const total = passage.questions.length;
+        let total = 0;
         
         passage.questions.forEach(q => {
-            const userAnswer = answers[q._id];
-            const isAnswerCorrect = isCorrect(q, userAnswer);
-            if (isAnswerCorrect) {
-                correct++;
+            if (q.type === 'table-completion') {
+                // Count each blank in the table
+                if (q.tableStructure && q.tableStructure.rows) {
+                    q.tableStructure.rows.forEach(row => {
+                        row.cells.forEach(cell => {
+                            if (cell.type === 'blank') {
+                                total++;
+                                const userAnswer = answers[cell.blankId];
+                                if (userAnswer && String(cell.answer).trim().toLowerCase() === String(userAnswer).trim().toLowerCase()) {
+                                    correct++;
+                                }
+                            }
+                        });
+                    });
+                }
+            } else {
+                // Regular questions
+                total++;
+                const userAnswer = answers[q._id];
+                const isAnswerCorrect = isCorrect(q, userAnswer);
+                if (isAnswerCorrect) {
+                    correct++;
+                }
             }
         });
         

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import readingService from '../services/readingService';
 import Toast from '../components/Toast';
+import TableBuilder from '../components/reading/TableBuilder';
 
 const CreateReading = () => {
     const navigate = useNavigate();
@@ -27,7 +28,8 @@ const CreateReading = () => {
         { value: 'multiple-choice', label: 'Multiple Choice' },
         { value: 'true-false-not-given', label: 'True/False/Not Given' },
         { value: 'fill-in-blank', label: 'Fill in the Blank' },
-        { value: 'matching', label: 'Matching' }
+        { value: 'matching', label: 'Matching' },
+        { value: 'table-completion', label: 'Table Completion' }
     ];
 
     // Default instructions for each question type
@@ -65,6 +67,13 @@ Match each statement with the correct person.
 
 Write the correct letter A-F in boxes ${range} on your answer sheet.`;
 
+            case 'table-completion':
+                return `Complete the table below.
+
+Choose NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer.
+
+Write your answers in boxes ${range} on your answer sheet.`;
+
             default:
                 return '';
         }
@@ -101,30 +110,53 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
         if (field === 'type') {
             newGroups[groupIndex].groupInstruction = getDefaultInstruction(value, newGroups[groupIndex].groupLabel);
             // Reset word limit for non-fill-in-blank types
-            if (value !== 'fill-in-blank') {
+            if (value !== 'fill-in-blank' && value !== 'table-completion') {
                 newGroups[groupIndex].wordLimit = '';
             } else {
                 newGroups[groupIndex].wordLimit = 'NO MORE THAN TWO WORDS';
             }
             
-            // Reset options and correctAnswer for all questions in this group when changing type
-            newGroups[groupIndex].questions = newGroups[groupIndex].questions.map(q => {
-                if (value === 'multiple-choice') {
-                    // Initialize with empty options for multiple-choice
-                    return {
-                        ...q,
-                        options: q.options && q.options.length > 0 ? q.options : ['', '', '', ''],
-                        correctAnswer: ''
-                    };
-                } else {
-                    // For other types, remove options
-                    return {
-                        ...q,
-                        options: [],
-                        correctAnswer: ''
-                    };
-                }
-            });
+            // Initialize table structure for table-completion
+            if (value === 'table-completion') {
+                newGroups[groupIndex].tableStructure = {
+                    headers: ['Column 1', 'Column 2', 'Column 3'],
+                    rows: [
+                        {
+                            cells: [
+                                { type: 'text', value: '' },
+                                { type: 'blank', blankId: 1, answer: '' },
+                                { type: 'text', value: '' }
+                            ]
+                        },
+                        {
+                            cells: [
+                                { type: 'text', value: '' },
+                                { type: 'blank', blankId: 2, answer: '' },
+                                { type: 'text', value: '' }
+                            ]
+                        }
+                    ]
+                };
+            } else {
+                // Reset options and correctAnswer for all questions in this group when changing type
+                newGroups[groupIndex].questions = newGroups[groupIndex].questions.map(q => {
+                    if (value === 'multiple-choice') {
+                        // Initialize with empty options for multiple-choice
+                        return {
+                            ...q,
+                            options: q.options && q.options.length > 0 ? q.options : ['', '', '', ''],
+                            correctAnswer: ''
+                        };
+                    } else {
+                        // For other types, remove options
+                        return {
+                            ...q,
+                            options: [],
+                            correctAnswer: ''
+                        };
+                    }
+                });
+            }
         }
 
         // Update instruction's question range when groupLabel changes
@@ -203,19 +235,36 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
         // Flatten question groups into questions array for backend
         const flatQuestions = [];
         formData.questionGroups.forEach(group => {
-            group.questions.forEach(q => {
+            if (group.type === 'table-completion') {
+                // For table-completion, create a single question with tableStructure
                 flatQuestions.push({
-                    questionText: q.questionText,
-                    type: group.type,
-                    options: q.options || [],
-                    correctAnswer: q.correctAnswer,
-                    explanation: q.explanation,
-                    subHeading: q.subHeading || '',
+                    questionText: '', // Not used for table-completion
+                    type: 'table-completion',
+                    options: [],
+                    correctAnswer: '', // Not used for table-completion
+                    explanation: '',
+                    subHeading: '',
                     wordLimit: group.wordLimit,
                     groupLabel: group.groupLabel,
-                    groupInstruction: group.groupInstruction
+                    groupInstruction: group.groupInstruction,
+                    tableStructure: group.tableStructure
                 });
-            });
+            } else {
+                // Regular questions
+                group.questions.forEach(q => {
+                    flatQuestions.push({
+                        questionText: q.questionText,
+                        type: group.type,
+                        options: q.options || [],
+                        correctAnswer: q.correctAnswer,
+                        explanation: q.explanation,
+                        subHeading: q.subHeading || '',
+                        wordLimit: group.wordLimit,
+                        groupLabel: group.groupLabel,
+                        groupInstruction: group.groupInstruction
+                    });
+                });
+            }
         });
 
         try {
@@ -236,7 +285,21 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
     };
 
     // Count total questions
-    const totalQuestions = formData.questionGroups.reduce((sum, g) => sum + g.questions.length, 0);
+    const totalQuestions = formData.questionGroups.reduce((sum, g) => {
+        if (g.type === 'table-completion') {
+            // Count blanks in table
+            let blankCount = 0;
+            if (g.tableStructure && g.tableStructure.rows) {
+                g.tableStructure.rows.forEach(row => {
+                    row.cells.forEach(cell => {
+                        if (cell.type === 'blank') blankCount++;
+                    });
+                });
+            }
+            return sum + blankCount;
+        }
+        return sum + g.questions.length;
+    }, 0);
 
     return (
         <div style={{ minHeight: 'calc(100vh - 74px)', background: 'var(--bg-base)' }}>
@@ -458,29 +521,40 @@ The text will preserve line breaks exactly as you paste it."
                                         />
                                     </div>
 
-                                    {/* Questions in this group */}
-                                    <div style={{ borderTop: '1px solid var(--border)', paddingTop: '16px' }}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                                            <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Questions ({group.questions.length})</span>
-                                            <button
-                                                type="button"
-                                                onClick={() => addQuestionToGroup(gIndex)}
-                                                style={{
-                                                    padding: '6px 12px',
-                                                    background: 'rgba(99, 102, 241, 0.1)',
-                                                    color: '#6366f1',
-                                                    border: '1px solid rgba(99, 102, 241, 0.3)',
-                                                    borderRadius: '6px',
-                                                    cursor: 'pointer',
-                                                    fontSize: '0.85rem',
-                                                    fontWeight: '600'
-                                                }}
-                                            >
-                                                + Add Question
-                                            </button>
+                                    {/* Questions or Table Builder */}
+                                    {group.type === 'table-completion' ? (
+                                        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '16px' }}>
+                                            <div style={{ marginBottom: '12px' }}>
+                                                <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Table Structure</span>
+                                            </div>
+                                            <TableBuilder
+                                                tableStructure={group.tableStructure || { headers: ['Column 1', 'Column 2'], rows: [{ cells: [{ type: 'text', value: '' }, { type: 'text', value: '' }] }] }}
+                                                onChange={(newTableStructure) => updateGroup(gIndex, 'tableStructure', newTableStructure)}
+                                            />
                                         </div>
+                                    ) : (
+                                        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '16px' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                                                <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Questions ({group.questions.length})</span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => addQuestionToGroup(gIndex)}
+                                                    style={{
+                                                        padding: '6px 12px',
+                                                        background: 'rgba(99, 102, 241, 0.1)',
+                                                        color: '#6366f1',
+                                                        border: '1px solid rgba(99, 102, 241, 0.3)',
+                                                        borderRadius: '6px',
+                                                        cursor: 'pointer',
+                                                        fontSize: '0.85rem',
+                                                        fontWeight: '600'
+                                                    }}
+                                                >
+                                                    + Add Question
+                                                </button>
+                                            </div>
 
-                                        {group.questions.map((q, qIndex) => (
+                                            {group.questions.map((q, qIndex) => (
                                             <div key={qIndex} style={{
                                                 background: 'var(--bg-elevated)',
                                                 borderRadius: '8px',
@@ -620,7 +694,8 @@ The text will preserve line breaks exactly as you paste it."
                                                 )}
                                             </div>
                                         ))}
-                                    </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))}

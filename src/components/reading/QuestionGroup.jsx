@@ -1,4 +1,5 @@
 import React from 'react';
+import TableCompletionQuestion from './TableCompletionQuestion';
 
 const QuestionGroup = ({ questions, answers, onAnswerChange, showResults }) => {
     if (!questions || questions.length === 0) return null;
@@ -6,6 +7,20 @@ const QuestionGroup = ({ questions, answers, onAnswerChange, showResults }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
             {questions.map((q, index) => {
+                // Handle table-completion separately
+                if (q.type === 'table-completion') {
+                    return (
+                        <TableCompletionQuestion
+                            key={index}
+                            question={q}
+                            answers={answers}
+                            onAnswerChange={onAnswerChange}
+                            showResults={showResults}
+                        />
+                    );
+                }
+                
+                // Regular questions
                 // Determine if we need to show a group header
                 // Show if it's the first question, or if the groupLabel is different from the previous one
                 const prevQ = questions[index - 1];
