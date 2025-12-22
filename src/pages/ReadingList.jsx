@@ -108,9 +108,12 @@ const ReadingList = () => {
                                     </h3>
 
                                     {/* Topic */}
-                                    <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '24px', flex: 1 }}>
-                                        <span style={{ opacity: 0.6 }}>Topic:</span> {passage.topic}
-                                    </p>
+                                    {passage.topic && (
+                                        <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '24px', flex: 1 }}>
+                                            <span style={{ opacity: 0.6 }}>Topic:</span> {passage.topic}
+                                        </p>
+                                    )}
+                                    {!passage.topic && <div style={{ flex: 1 }} />}
 
                                     {/* Bottom Action */}
                                     <div style={{

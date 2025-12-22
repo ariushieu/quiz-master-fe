@@ -13,12 +13,13 @@ const EditReading = () => {
     const [formData, setFormData] = useState({
         title: '',
         topic: '',
-        level: 'IELTS Passage 1',
+        level: 'IELTS Reading',
         passageText: '',
         questionGroups: []
     });
 
     const levels = [
+        'IELTS Reading',
         'Beginner', 'Intermediate', 'Advanced',
         'IELTS Band 4.5-5.5', 'IELTS Band 6.0-7.0', 'IELTS Band 7.5+',
         'IELTS Passage 1', 'IELTS Passage 2', 'IELTS Passage 3'
@@ -87,7 +88,7 @@ const EditReading = () => {
             setFormData({
                 title: data.title || '',
                 topic: data.topic || '',
-                level: data.level || 'IELTS Passage 1',
+                level: data.level || 'IELTS Reading',
                 passageText: data.passageText || '',
                 questionGroups: questionsToGroups(data.questions || [])
             });
@@ -165,6 +166,25 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
         // Auto-update instruction when type changes
         if (field === 'type') {
             newGroups[gIndex].groupInstruction = getDefaultInstruction(value, newGroups[gIndex].groupLabel);
+            
+            // Reset options and correctAnswer for all questions in this group when changing type
+            newGroups[gIndex].questions = newGroups[gIndex].questions.map(q => {
+                if (value === 'multiple-choice') {
+                    // Initialize with empty options for multiple-choice
+                    return {
+                        ...q,
+                        options: q.options && q.options.length > 0 ? q.options : ['', '', '', ''],
+                        correctAnswer: ''
+                    };
+                } else {
+                    // For other types, remove options
+                    return {
+                        ...q,
+                        options: [],
+                        correctAnswer: ''
+                    };
+                }
+            });
         }
 
         // Update instruction's question range when groupLabel changes
@@ -198,6 +218,38 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
         const newGroups = [...formData.questionGroups];
         newGroups[gIndex].questions = newGroups[gIndex].questions.filter((_, i) => i !== qIndex);
         setFormData(prev => ({ ...prev, questionGroups: newGroups }));
+    };
+
+    // Multiple choice options handlers
+    const updateOption = (gIndex, qIndex, optIndex, value) => {
+        const newGroups = [...formData.questionGroups];
+        if (!newGroups[gIndex].questions[qIndex].options) {
+            newGroups[gIndex].questions[qIndex].options = ['', '', '', ''];
+        }
+        newGroups[gIndex].questions[qIndex].options[optIndex] = value;
+        setFormData(prev => ({ ...prev, questionGroups: newGroups }));
+    };
+
+    const toggleCorrectAnswer = (gIndex, qIndex, option) => {
+        setFormData(prev => {
+            const newGroups = JSON.parse(JSON.stringify(prev.questionGroups)); // Deep clone
+            const question = newGroups[gIndex].questions[qIndex];
+            
+            let correctAnswers = Array.isArray(question.correctAnswer) 
+                ? [...question.correctAnswer] 
+                : question.correctAnswer ? [question.correctAnswer] : [];
+            
+            const index = correctAnswers.indexOf(option);
+            if (index > -1) {
+                correctAnswers.splice(index, 1);
+            } else {
+                correctAnswers.push(option);
+            }
+            
+            question.correctAnswer = correctAnswers.length === 1 ? correctAnswers[0] : correctAnswers;
+            
+            return { ...prev, questionGroups: newGroups };
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -243,8 +295,8 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
                                 <input className="form-input" name="title" value={formData.title} onChange={handleInputChange} required style={{ width: '100%' }} />
                             </div>
                             <div>
-                                <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', fontWeight: '500' }}>Topic *</label>
-                                <input className="form-input" name="topic" value={formData.topic} onChange={handleInputChange} required style={{ width: '100%' }} />
+                                <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', fontWeight: '500' }}>Topic (Optional)</label>
+                                <input className="form-input" name="topic" value={formData.topic} onChange={handleInputChange} placeholder="e.g. Nature & Environment" style={{ width: '100%' }} />
                             </div>
                             <div>
                                 <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', fontWeight: '500' }}>Level</label>
@@ -321,10 +373,76 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
                                                     </div>
                                                     <input className="form-input" value={q.subHeading || ''} onChange={(e) => updateQuestion(gIndex, qIndex, 'subHeading', e.target.value)} placeholder="Sub-heading (e.g. Advantages of cork stoppers)" style={{ width: '100%', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '6px', background: 'rgba(99, 102, 241, 0.05)' }} />
                                                     <input className="form-input" value={q.questionText} onChange={(e) => updateQuestion(gIndex, qIndex, 'questionText', e.target.value)} placeholder="Question text..." style={{ width: '100%', fontSize: '0.85rem', marginBottom: '8px' }} />
-                                                    <div className="form-grid-1-2">
-                                                        <input className="form-input" value={q.correctAnswer} onChange={(e) => updateQuestion(gIndex, qIndex, 'correctAnswer', e.target.value)} placeholder="Answer" style={{ fontSize: '0.85rem', borderColor: 'rgba(34, 197, 94, 0.5)' }} />
-                                                        <input className="form-input" value={q.explanation} onChange={(e) => updateQuestion(gIndex, qIndex, 'explanation', e.target.value)} placeholder="Explanation..." style={{ fontSize: '0.85rem' }} />
-                                                    </div>
+                                                    
+                                                    {/* Multiple choice options */}
+                                                    {group.type === 'multiple-choice' && (
+                                                        <>
+                                                            <div className="form-grid-2" style={{ marginBottom: '8px' }}>
+                                                                {[0, 1, 2, 3].map(optIndex => (
+                                                                    <input
+                                                                        key={optIndex}
+                                                                        className="form-input"
+                                                                        value={q.options?.[optIndex] || ''}
+                                                                        onChange={(e) => updateOption(gIndex, qIndex, optIndex, e.target.value)}
+                                                                        placeholder={`Option ${String.fromCharCode(65 + optIndex)}`}
+                                                                        style={{ fontSize: '0.8rem' }}
+                                                                    />
+                                                                ))}
+                                                            </div>
+                                                            <div style={{ marginBottom: '8px', padding: '8px', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '6px', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
+                                                                <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.7rem', fontWeight: '600', color: '#16a34a' }}>
+                                                                    Correct Answer(s) - Tick one or more
+                                                                </label>
+                                                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                                                                    {[0, 1, 2, 3].map(optIndex => {
+                                                                        const option = q.options?.[optIndex] || '';
+                                                                        if (!option.trim()) return null;
+                                                                        
+                                                                        const correctAnswers = Array.isArray(q.correctAnswer) 
+                                                                            ? q.correctAnswer 
+                                                                            : q.correctAnswer ? [q.correctAnswer] : [];
+                                                                        const isChecked = correctAnswers.includes(option);
+                                                                        
+                                                                        return (
+                                                                            <label key={optIndex} style={{ 
+                                                                                display: 'flex', 
+                                                                                alignItems: 'center', 
+                                                                                gap: '4px', 
+                                                                                cursor: 'pointer',
+                                                                                padding: '4px 8px',
+                                                                                background: isChecked ? 'rgba(34, 197, 94, 0.2)' : 'var(--bg-elevated)',
+                                                                                borderRadius: '4px',
+                                                                                border: `1px solid ${isChecked ? '#16a34a' : 'var(--border)'}`,
+                                                                                fontSize: '0.75rem',
+                                                                                fontWeight: isChecked ? '600' : '400'
+                                                                            }}>
+                                                                                <input
+                                                                                    type="checkbox"
+                                                                                    checked={isChecked}
+                                                                                    onChange={() => toggleCorrectAnswer(gIndex, qIndex, option)}
+                                                                                    style={{ width: '14px', height: '14px', accentColor: '#16a34a' }}
+                                                                                />
+                                                                                <span>{String.fromCharCode(65 + optIndex)}: {option.substring(0, 25)}{option.length > 25 ? '...' : ''}</span>
+                                                                            </label>
+                                                                        );
+                                                                    })}
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                    )}
+                                                    
+                                                    {/* For non-multiple-choice, show text input for correct answer */}
+                                                    {group.type !== 'multiple-choice' && (
+                                                        <div className="form-grid-1-2">
+                                                            <input className="form-input" value={q.correctAnswer} onChange={(e) => updateQuestion(gIndex, qIndex, 'correctAnswer', e.target.value)} placeholder="Answer" style={{ fontSize: '0.85rem', borderColor: 'rgba(34, 197, 94, 0.5)' }} />
+                                                            <input className="form-input" value={q.explanation} onChange={(e) => updateQuestion(gIndex, qIndex, 'explanation', e.target.value)} placeholder="Explanation..." style={{ fontSize: '0.85rem' }} />
+                                                        </div>
+                                                    )}
+                                                    
+                                                    {/* For multiple-choice, only show explanation */}
+                                                    {group.type === 'multiple-choice' && (
+                                                        <input className="form-input" value={q.explanation} onChange={(e) => updateQuestion(gIndex, qIndex, 'explanation', e.target.value)} placeholder="Explanation..." style={{ fontSize: '0.85rem', width: '100%' }} />
+                                                    )}
                                                 </div>
                                             ))}
                                         </div>

@@ -58,24 +58,65 @@ const QuestionGroup = ({ questions, answers, onAnswerChange, showResults }) => {
 
                             <div style={{ paddingLeft: '0px' }}>
                                 {/* Multiple Choice */}
-                                {q.type === 'multiple-choice' && (
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                        {q.options.map((option, optIdx) => (
-                                            <label key={optIdx} className={`quiz-option ${answers[q._id] === option ? 'selected' : ''}`} style={{ padding: '12px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                                                <input
-                                                    type="radio"
-                                                    name={q._id}
-                                                    value={option}
-                                                    checked={answers[q._id] === option}
-                                                    onChange={() => onAnswerChange(q._id, option)}
-                                                    disabled={showResults}
-                                                    style={{ marginRight: '12px', width: '18px', height: '18px', accentColor: 'var(--primary)' }}
-                                                />
-                                                <span style={{ fontSize: '1rem' }}>{option}</span>
-                                            </label>
-                                        ))}
-                                    </div>
-                                )}
+                                {q.type === 'multiple-choice' && (() => {
+                                    // Determine if this is a multi-answer question
+                                    const correctAnswers = Array.isArray(q.correctAnswer) ? q.correctAnswer : [q.correctAnswer];
+                                    const isMultiAnswer = correctAnswers.length > 1;
+                                    
+                                    // For multi-answer, user's answer should be an array
+                                    const userAnswer = answers[q._id];
+                                    const userAnswers = Array.isArray(userAnswer) ? userAnswer : (userAnswer ? [userAnswer] : []);
+                                    
+                                    return (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                            {q.options.map((option, optIdx) => {
+                                                const isSelected = isMultiAnswer 
+                                                    ? userAnswers.includes(option)
+                                                    : userAnswer === option;
+                                                
+                                                return (
+                                                    <label 
+                                                        key={optIdx} 
+                                                        className={`quiz-option ${isSelected ? 'selected' : ''}`} 
+                                                        style={{ 
+                                                            padding: '12px', 
+                                                            display: 'flex', 
+                                                            alignItems: 'center', 
+                                                            cursor: showResults ? 'default' : 'pointer' 
+                                                        }}
+                                                    >
+                                                        <input
+                                                            type={isMultiAnswer ? 'checkbox' : 'radio'}
+                                                            name={q._id}
+                                                            value={option}
+                                                            checked={isSelected}
+                                                            onChange={() => {
+                                                                if (isMultiAnswer) {
+                                                                    // Toggle checkbox
+                                                                    const newAnswers = isSelected
+                                                                        ? userAnswers.filter(a => a !== option)
+                                                                        : [...userAnswers, option];
+                                                                    onAnswerChange(q._id, newAnswers.length > 0 ? newAnswers : null);
+                                                                } else {
+                                                                    // Radio button
+                                                                    onAnswerChange(q._id, option);
+                                                                }
+                                                            }}
+                                                            disabled={showResults}
+                                                            style={{ 
+                                                                marginRight: '12px', 
+                                                                width: '18px', 
+                                                                height: '18px', 
+                                                                accentColor: 'var(--primary)' 
+                                                            }}
+                                                        />
+                                                        <span style={{ fontSize: '1rem' }}>{option}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    );
+                                })()}
 
                                 {/* True / False / Not Given */}
                                 {q.type === 'true-false-not-given' && (
@@ -149,7 +190,13 @@ const QuestionGroup = ({ questions, answers, onAnswerChange, showResults }) => {
                                         style={{ marginTop: '24px', padding: '16px' }}
                                     >
                                         <p className="font-bold text-base mb-2">
-                                            {isCorrect(q, answers[q._id]) ? 'Correct!' : `Incorrect. Correct answer: ${q.correctAnswer}`}
+                                            {isCorrect(q, answers[q._id]) ? 'Correct!' : (() => {
+                                                const correctAnswers = Array.isArray(q.correctAnswer) ? q.correctAnswer : [q.correctAnswer];
+                                                const correctText = correctAnswers.length > 1 
+                                                    ? `Correct answers: ${correctAnswers.join(', ')}`
+                                                    : `Correct answer: ${q.correctAnswer}`;
+                                                return `Incorrect. ${correctText}`;
+                                            })()}
                                         </p>
                                         {q.explanation && (
                                             <p className="opacity-90 leading-relaxed text-sm">In the passage: {q.explanation}</p>
@@ -168,8 +215,30 @@ const QuestionGroup = ({ questions, answers, onAnswerChange, showResults }) => {
 // Helper to check answer loosely (case insensitive, trimmed)
 const isCorrect = (question, userAnswer) => {
     if (!userAnswer) return false;
-    const correct = String(question.correctAnswer).trim().toLowerCase();
-    const user = String(userAnswer).trim().toLowerCase();
+    
+    const correctAnswers = Array.isArray(question.correctAnswer) 
+        ? question.correctAnswer 
+        : [question.correctAnswer];
+    
+    // If multiple correct answers expected
+    if (correctAnswers.length > 1) {
+        if (!Array.isArray(userAnswer)) return false;
+        
+        // Check if arrays have same length and same elements (order doesn't matter)
+        if (userAnswer.length !== correctAnswers.length) return false;
+        
+        const normalizedCorrect = correctAnswers.map(a => String(a).trim().toLowerCase()).sort();
+        const normalizedUser = userAnswer.map(a => String(a).trim().toLowerCase()).sort();
+        
+        return normalizedCorrect.every((val, idx) => val === normalizedUser[idx]);
+    }
+    
+    // Single answer
+    const correct = String(correctAnswers[0]).trim().toLowerCase();
+    const user = Array.isArray(userAnswer) 
+        ? (userAnswer.length === 1 ? String(userAnswer[0]).trim().toLowerCase() : '')
+        : String(userAnswer).trim().toLowerCase();
+    
     return correct === user;
 };
 

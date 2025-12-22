@@ -11,12 +11,13 @@ const CreateReading = () => {
     const [formData, setFormData] = useState({
         title: '',
         topic: '',
-        level: 'IELTS Passage 1',
+        level: 'IELTS Reading',
         passageText: '',
         questionGroups: []
     });
 
     const levels = [
+        'IELTS Reading',
         'Beginner', 'Intermediate', 'Advanced',
         'IELTS Band 4.5-5.5', 'IELTS Band 6.0-7.0', 'IELTS Band 7.5+',
         'IELTS Passage 1', 'IELTS Passage 2', 'IELTS Passage 3'
@@ -105,6 +106,25 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
             } else {
                 newGroups[groupIndex].wordLimit = 'NO MORE THAN TWO WORDS';
             }
+            
+            // Reset options and correctAnswer for all questions in this group when changing type
+            newGroups[groupIndex].questions = newGroups[groupIndex].questions.map(q => {
+                if (value === 'multiple-choice') {
+                    // Initialize with empty options for multiple-choice
+                    return {
+                        ...q,
+                        options: q.options && q.options.length > 0 ? q.options : ['', '', '', ''],
+                        correctAnswer: ''
+                    };
+                } else {
+                    // For other types, remove options
+                    return {
+                        ...q,
+                        options: [],
+                        correctAnswer: ''
+                    };
+                }
+            });
         }
 
         // Update instruction's question range when groupLabel changes
@@ -147,6 +167,32 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
         }
         newGroups[groupIndex].questions[qIndex].options[optIndex] = value;
         setFormData(prev => ({ ...prev, questionGroups: newGroups }));
+    };
+
+    // Toggle correct answer for multiple-choice (support multiple correct answers)
+    const toggleCorrectAnswer = (groupIndex, qIndex, option) => {
+        setFormData(prev => {
+            const newGroups = JSON.parse(JSON.stringify(prev.questionGroups)); // Deep clone
+            const question = newGroups[groupIndex].questions[qIndex];
+            
+            // Initialize correctAnswer as array if not already
+            let correctAnswers = Array.isArray(question.correctAnswer) 
+                ? [...question.correctAnswer] 
+                : question.correctAnswer ? [question.correctAnswer] : [];
+            
+            // Toggle the option
+            const index = correctAnswers.indexOf(option);
+            if (index > -1) {
+                correctAnswers.splice(index, 1);
+            } else {
+                correctAnswers.push(option);
+            }
+            
+            // Store as array if multiple, or string if single
+            question.correctAnswer = correctAnswers.length === 1 ? correctAnswers[0] : correctAnswers;
+            
+            return { ...prev, questionGroups: newGroups };
+        });
     };
 
     // ========== Submit ==========
@@ -231,13 +277,12 @@ Write the correct letter A-F in boxes ${range} on your answer sheet.`;
                                 />
                             </div>
                             <div>
-                                <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', fontWeight: '500' }}>Topic *</label>
+                                <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', fontWeight: '500' }}>Topic (Optional)</label>
                                 <input
                                     className="form-input"
                                     name="topic"
                                     value={formData.topic}
                                     onChange={handleInputChange}
-                                    required
                                     placeholder="e.g. Nature & Environment"
                                     style={{ width: '100%' }}
                                 />
@@ -479,31 +524,89 @@ The text will preserve line breaks exactly as you paste it."
 
                                                 {/* Multiple choice options */}
                                                 {group.type === 'multiple-choice' && (
-                                                    <div className="form-grid-2" style={{ marginBottom: '10px' }}>
-                                                        {[0, 1, 2, 3].map(optIndex => (
-                                                            <input
-                                                                key={optIndex}
-                                                                className="form-input"
-                                                                value={q.options?.[optIndex] || ''}
-                                                                onChange={(e) => updateOption(gIndex, qIndex, optIndex, e.target.value)}
-                                                                placeholder={`Option ${String.fromCharCode(65 + optIndex)}`}
-                                                                style={{ fontSize: '0.85rem' }}
-                                                            />
-                                                        ))}
-                                                    </div>
+                                                    <>
+                                                        <div className="form-grid-2" style={{ marginBottom: '10px' }}>
+                                                            {[0, 1, 2, 3].map(optIndex => (
+                                                                <input
+                                                                    key={optIndex}
+                                                                    className="form-input"
+                                                                    value={q.options?.[optIndex] || ''}
+                                                                    onChange={(e) => updateOption(gIndex, qIndex, optIndex, e.target.value)}
+                                                                    placeholder={`Option ${String.fromCharCode(65 + optIndex)}`}
+                                                                    style={{ fontSize: '0.85rem' }}
+                                                                />
+                                                            ))}
+                                                        </div>
+                                                        <div style={{ marginBottom: '10px', padding: '10px', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '6px', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
+                                                            <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.75rem', fontWeight: '600', color: '#16a34a' }}>
+                                                                Correct Answer(s) - Tick one or more
+                                                            </label>
+                                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                                                {[0, 1, 2, 3].map(optIndex => {
+                                                                    const option = q.options?.[optIndex] || '';
+                                                                    if (!option.trim()) return null;
+                                                                    
+                                                                    const correctAnswers = Array.isArray(q.correctAnswer) 
+                                                                        ? q.correctAnswer 
+                                                                        : q.correctAnswer ? [q.correctAnswer] : [];
+                                                                    const isChecked = correctAnswers.includes(option);
+                                                                    
+                                                                    return (
+                                                                        <label key={optIndex} style={{ 
+                                                                            display: 'flex', 
+                                                                            alignItems: 'center', 
+                                                                            gap: '6px', 
+                                                                            cursor: 'pointer',
+                                                                            padding: '6px 10px',
+                                                                            background: isChecked ? 'rgba(34, 197, 94, 0.2)' : 'var(--bg-elevated)',
+                                                                            borderRadius: '6px',
+                                                                            border: `1px solid ${isChecked ? '#16a34a' : 'var(--border)'}`,
+                                                                            fontSize: '0.85rem',
+                                                                            fontWeight: isChecked ? '600' : '400'
+                                                                        }}>
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                checked={isChecked}
+                                                                                onChange={() => toggleCorrectAnswer(gIndex, qIndex, option)}
+                                                                                style={{ width: '16px', height: '16px', accentColor: '#16a34a' }}
+                                                                            />
+                                                                            <span>{String.fromCharCode(65 + optIndex)}: {option.substring(0, 30)}{option.length > 30 ? '...' : ''}</span>
+                                                                        </label>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        </div>
+                                                    </>
                                                 )}
 
-                                                <div className="form-grid-1-2">
-                                                    <div>
-                                                        <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Correct Answer *</label>
-                                                        <input
-                                                            className="form-input"
-                                                            value={q.correctAnswer}
-                                                            onChange={(e) => updateQuestion(gIndex, qIndex, 'correctAnswer', e.target.value)}
-                                                            placeholder={group.type === 'true-false-not-given' ? 'TRUE/FALSE/NOT GIVEN' : 'Answer'}
-                                                            style={{ width: '100%', fontSize: '0.9rem', borderColor: 'rgba(34, 197, 94, 0.5)' }}
-                                                        />
+                                                {/* For non-multiple-choice types, show text input for correct answer */}
+                                                {group.type !== 'multiple-choice' && (
+                                                    <div className="form-grid-1-2">
+                                                        <div>
+                                                            <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Correct Answer *</label>
+                                                            <input
+                                                                className="form-input"
+                                                                value={q.correctAnswer}
+                                                                onChange={(e) => updateQuestion(gIndex, qIndex, 'correctAnswer', e.target.value)}
+                                                                placeholder={group.type === 'true-false-not-given' ? 'TRUE/FALSE/NOT GIVEN' : 'Answer'}
+                                                                style={{ width: '100%', fontSize: '0.9rem', borderColor: 'rgba(34, 197, 94, 0.5)' }}
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Explanation</label>
+                                                            <input
+                                                                className="form-input"
+                                                                value={q.explanation}
+                                                                onChange={(e) => updateQuestion(gIndex, qIndex, 'explanation', e.target.value)}
+                                                                placeholder="Why this is the correct answer..."
+                                                                style={{ width: '100%', fontSize: '0.9rem' }}
+                                                            />
+                                                        </div>
                                                     </div>
+                                                )}
+                                                
+                                                {/* For multiple-choice, only show explanation */}
+                                                {group.type === 'multiple-choice' && (
                                                     <div>
                                                         <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Explanation</label>
                                                         <input
@@ -514,7 +617,7 @@ The text will preserve line breaks exactly as you paste it."
                                                             style={{ width: '100%', fontSize: '0.9rem' }}
                                                         />
                                                     </div>
-                                                </div>
+                                                )}
                                             </div>
                                         ))}
                                     </div>
