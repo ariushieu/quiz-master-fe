@@ -70,7 +70,7 @@ const DictionaryPopup = ({ position, word, definition, onClose, onAddToSet, mode
                 padding: '16px',
                 minWidth: '220px',
                 maxWidth: '320px',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                boxShadow: '0 10px 30px var(--color-overlay-50)',
                 border: '1px solid var(--border)',
                 transition: 'opacity 0.1s ease-out, transform 0.1s ease-out, left 0.1s ease-out'
             }}
@@ -111,7 +111,7 @@ const DictionaryPopup = ({ position, word, definition, onClose, onAddToSet, mode
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 gap: '8px',
-                                background: 'rgba(239, 68, 68, 0.1)',
+                                background: 'var(--color-danger-bg)',
                                 border: '1px solid var(--error)',
                                 color: 'var(--error)'
                             }}
@@ -122,7 +122,7 @@ const DictionaryPopup = ({ position, word, definition, onClose, onAddToSet, mode
                         <button
                             onClick={onHighlight}
                             className="btn btn-sm btn-secondary w-full"
-                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: 'var(--bg-surface)', borderColor: '#eab308', color: '#eab308' }}
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: 'var(--bg-surface)', borderColor: 'var(--color-warning)', color: 'var(--color-warning)' }}
                         >
                             <span></span> Highlight
                         </button>

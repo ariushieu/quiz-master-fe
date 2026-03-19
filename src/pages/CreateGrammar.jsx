@@ -197,10 +197,10 @@ export default function CreateGrammar() {
         <div className="form-group">
           <label>Examples</label>
           {formData.examples.map((example, idx) => (
-            <div key={idx} style={{ padding: '0.5rem', background: '#f5f5f5', borderRadius: '4px', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between' }}>
+            <div key={idx} style={{ padding: '0.5rem', background: 'var(--color-border-light)', borderRadius: '4px', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between' }}>
               <div>
                 <div>{example.sentence}</div>
-                {example.translation && <div style={{ fontSize: '0.9rem', color: '#666' }}>{example.translation}</div>}
+                {example.translation && <div style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>{example.translation}</div>}
               </div>
               <button type="button" onClick={() => removeExample(idx)} className="btn-icon">🗑️</button>
             </div>
@@ -229,7 +229,7 @@ export default function CreateGrammar() {
         <div className="form-group">
           <label>Exercises * (at least 1 required)</label>
           {formData.exercises.map((exercise, idx) => (
-            <div key={idx} style={{ padding: '1rem', background: '#f5f5f5', borderRadius: '4px', marginBottom: '0.5rem' }}>
+            <div key={idx} style={{ padding: '1rem', background: 'var(--color-border-light)', borderRadius: '4px', marginBottom: '0.5rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                 <div>
                   <strong>{exercise.type}</strong>
@@ -240,7 +240,7 @@ export default function CreateGrammar() {
             </div>
           ))}
 
-          <div style={{ border: '1px dashed #ddd', padding: '1rem', borderRadius: '8px', marginTop: '1rem' }}>
+          <div style={{ border: '1px dashed var(--color-border-light)', padding: '1rem', borderRadius: '8px', marginTop: '1rem' }}>
             <h4>Add New Exercise</h4>
             
             <select

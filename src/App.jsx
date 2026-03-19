@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import Navbar from './components/Navbar';
+import DashboardLayout from './components/layout/DashboardLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -39,147 +39,145 @@ function AppContent() {
         <title>QuizMaster - Master Your Knowledge</title>
         <meta name="description" content="Join QuizMaster to create, study, and share flashcards. The best way to master any subject." />
       </Helmet>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/login"
-          element={user ? <Navigate to="/sets" replace /> : <Login />}
-        />
-        <Route
-          path="/register"
-          element={user ? <Navigate to="/sets" replace /> : <Register />}
-        />
-        <Route
-          path="/sets"
-          element={
-            <ProtectedRoute>
-              <SetList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/explore"
-          element={
-            <ProtectedRoute>
-              <Explore />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/create"
-          element={
-            <ProtectedRoute>
-              <CreateSet />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/edit/:id"
-          element={
-            <ProtectedRoute>
-              <CreateSet />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/study/:id"
-          element={
-            <ProtectedRoute>
-              <Study />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/quiz/:id"
-          element={
-            <ProtectedRoute>
-              <Quiz />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/leaderboard"
-          element={
-            <ProtectedRoute>
-              <UnderMaintenance feature="Leaderboard" />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/user/:username"
-          element={
-            <ProtectedRoute>
-              <UserProfile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/reading"
-          element={
-            <ProtectedRoute>
-              <ReadingList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/reading/create"
-          element={
-            <ProtectedRoute>
-              <CreateReading />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/reading/edit/:id"
-          element={
-            <ProtectedRoute>
-              <EditReading />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/reading/:id"
-          element={
-            <ProtectedRoute>
-              <ReadingPractice />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/grammar"
-          element={
-            <ProtectedRoute>
-              <ExternalRedirect url="https://www.grammarguide.app/" />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/grammar/*"
-          element={
-            <ProtectedRoute>
-              <ExternalRedirect url="https://www.grammarguide.app/" />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <DashboardLayout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={user ? <Navigate to="/sets" replace /> : <Login />} />
+          <Route
+            path="/register"
+            element={user ? <Navigate to="/sets" replace /> : <Register />}
+          />
+          <Route
+            path="/sets"
+            element={
+              <ProtectedRoute>
+                <SetList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/explore"
+            element={
+              <ProtectedRoute>
+                <Explore />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute>
+                <CreateSet />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit/:id"
+            element={
+              <ProtectedRoute>
+                <CreateSet />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/study/:id"
+            element={
+              <ProtectedRoute>
+                <Study />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/quiz/:id"
+            element={
+              <ProtectedRoute>
+                <Quiz />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/leaderboard"
+            element={
+              <ProtectedRoute>
+                <UnderMaintenance feature="Leaderboard" />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user/:username"
+            element={
+              <ProtectedRoute>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reading"
+            element={
+              <ProtectedRoute>
+                <ReadingList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reading/create"
+            element={
+              <ProtectedRoute>
+                <CreateReading />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reading/edit/:id"
+            element={
+              <ProtectedRoute>
+                <EditReading />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reading/:id"
+            element={
+              <ProtectedRoute>
+                <ReadingPractice />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/grammar"
+            element={
+              <ProtectedRoute>
+                <ExternalRedirect url="https://www.grammarguide.app/" />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/grammar/*"
+            element={
+              <ProtectedRoute>
+                <ExternalRedirect url="https://www.grammarguide.app/" />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </DashboardLayout>
     </>
   );
 }

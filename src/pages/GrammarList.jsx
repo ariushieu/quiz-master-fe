@@ -59,13 +59,13 @@ export default function GrammarList() {
           placeholder="Search lessons..."
           value={filters.search}
           onChange={(e) => handleFilterChange('search', e.target.value)}
-          style={{ flex: '1', minWidth: '200px', padding: '0.5rem', borderRadius: '8px', border: '1px solid #ddd' }}
+          style={{ flex: '1', minWidth: '200px', padding: '0.5rem', borderRadius: '8px', border: '1px solid var(--color-border)' }}
         />
         
         <select
           value={filters.level}
           onChange={(e) => handleFilterChange('level', e.target.value)}
-          style={{ padding: '0.5rem', borderRadius: '8px', border: '1px solid #ddd' }}
+          style={{ padding: '0.5rem', borderRadius: '8px', border: '1px solid var(--color-border)' }}
         >
           <option value="">All Levels</option>
           <option value="beginner">Beginner</option>
@@ -76,7 +76,7 @@ export default function GrammarList() {
         <select
           value={filters.category}
           onChange={(e) => handleFilterChange('category', e.target.value)}
-          style={{ padding: '0.5rem', borderRadius: '8px', border: '1px solid #ddd' }}
+          style={{ padding: '0.5rem', borderRadius: '8px', border: '1px solid var(--color-border)' }}
         >
           <option value="">All Categories</option>
           <option value="tenses">Tenses</option>
@@ -110,7 +110,7 @@ export default function GrammarList() {
                 </span>
               </div>
               
-              <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '1rem' }}>
+              <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', marginBottom: '1rem' }}>
                 {lesson.description}
               </p>
 
@@ -120,7 +120,7 @@ export default function GrammarList() {
                 <span className="tag">{lesson.exercises.length} exercises</span>
               </div>
 
-              <div style={{ fontSize: '0.85rem', color: '#888' }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
                 By {lesson.createdBy?.username || 'Unknown'}
               </div>
             </Link>

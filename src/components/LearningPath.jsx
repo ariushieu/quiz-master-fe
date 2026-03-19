@@ -137,11 +137,18 @@ export default function LearningPath() {
         try {
             await statsAPI.claimQuest();
 
+            const rootStyle = getComputedStyle(document.documentElement);
+            const confettiColors = [
+                rootStyle.getPropertyValue('--color-primary').trim(),
+                rootStyle.getPropertyValue('--color-warning').trim(),
+                rootStyle.getPropertyValue('--color-success').trim(),
+            ];
+
             confetti({
                 particleCount: 200,
                 spread: 90,
                 origin: { y: 0.6 },
-                colors: ['#7c3aed', '#f472b6', '#22c55e']
+                colors: confettiColors,
             });
 
             // Delay modal to show confetti first
@@ -168,7 +175,7 @@ export default function LearningPath() {
                 className="card mb-3"
                 style={{
                     border: '1px solid var(--primary-subtle)',
-                    background: 'linear-gradient(to right, var(--bg-elevated), rgba(124, 58, 237, 0.05))',
+                            background: 'linear-gradient(to right, var(--bg-elevated), var(--primary-subtle))',
                     padding: '0',
                     overflow: 'hidden'
                 }}
@@ -246,7 +253,7 @@ export default function LearningPath() {
                                             key={step.id}
                                             onClick={() => !isDone && navigate(step.path)}
                                             style={{
-                                                background: isDone ? 'rgba(34, 197, 94, 0.1)' : 'var(--bg-surface)',
+                                                background: isDone ? 'var(--color-success-bg)' : 'var(--bg-surface)',
                                                 border: `1px solid ${isDone ? 'var(--success)' : 'var(--border)'}`,
                                                 borderRadius: 'var(--radius-md)',
                                                 padding: '16px',
@@ -353,7 +360,7 @@ export default function LearningPath() {
                     <div style={{
                         position: 'fixed',
                         top: 0, left: 0, right: 0, bottom: 0,
-                        background: 'rgba(0,0,0,0.8)',
+                        background: 'var(--color-overlay-75)',
                         zIndex: 9999,
                         display: 'flex',
                         alignItems: 'center',

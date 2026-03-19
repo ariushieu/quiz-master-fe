@@ -322,7 +322,7 @@ Write your answers in boxes ${range} on your answer sheet.`;
                         marginBottom: '24px'
                     }}>
                         <h2 style={{ fontSize: '1.2rem', fontWeight: '600', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span style={{ background: 'var(--primary)', color: '#fff', width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>1</span>
+                            <span style={{ background: 'var(--primary)', color: 'var(--color-surface)', width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>1</span>
                             Basic Information
                         </h2>
 
@@ -374,7 +374,7 @@ Write your answers in boxes ${range} on your answer sheet.`;
                         marginBottom: '24px'
                     }}>
                         <h2 style={{ fontSize: '1.2rem', fontWeight: '600', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span style={{ background: 'var(--primary)', color: '#fff', width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>2</span>
+                            <span style={{ background: 'var(--primary)', color: 'var(--color-surface)', width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>2</span>
                             Passage Content
                         </h2>
                         <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '16px' }}>
@@ -416,7 +416,7 @@ The text will preserve line breaks exactly as you paste it."
                     }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                             <h2 style={{ fontSize: '1.2rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <span style={{ background: 'var(--primary)', color: '#fff', width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>3</span>
+                            <span style={{ background: 'var(--primary)', color: 'var(--color-surface)', width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>3</span>
                                 Question Groups ({totalQuestions} questions)
                             </h2>
                             <button
@@ -424,8 +424,8 @@ The text will preserve line breaks exactly as you paste it."
                                 onClick={addQuestionGroup}
                                 style={{
                                     padding: '10px 20px',
-                                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                                    color: '#fff',
+                                    background: 'var(--color-success)',
+                                    color: 'var(--color-surface)',
                                     border: 'none',
                                     borderRadius: '10px',
                                     fontWeight: '600',
@@ -466,7 +466,7 @@ The text will preserve line breaks exactly as you paste it."
                                 {/* Group Header */}
                                 <div style={{
                                     padding: '16px 20px',
-                                    background: 'rgba(99, 102, 241, 0.1)',
+                                    background: 'var(--primary-subtle)',
                                     borderBottom: '1px solid var(--border)',
                                     display: 'flex',
                                     justifyContent: 'space-between',
@@ -478,7 +478,7 @@ The text will preserve line breaks exactly as you paste it."
                                     <button
                                         type="button"
                                         onClick={() => removeGroup(gIndex)}
-                                        style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.85rem' }}
+                                        style={{ background: 'none', border: 'none', color: 'var(--color-danger)', cursor: 'pointer', fontSize: '0.85rem' }}
                                     >
                                         Delete Group
                                     </button>
@@ -541,9 +541,9 @@ The text will preserve line breaks exactly as you paste it."
                                                     onClick={() => addQuestionToGroup(gIndex)}
                                                     style={{
                                                         padding: '6px 12px',
-                                                        background: 'rgba(99, 102, 241, 0.1)',
-                                                        color: '#6366f1',
-                                                        border: '1px solid rgba(99, 102, 241, 0.3)',
+                                                        background: 'var(--primary-subtle)',
+                                                        color: 'var(--color-primary)',
+                                                        border: '1px solid var(--color-border)',
                                                         borderRadius: '6px',
                                                         cursor: 'pointer',
                                                         fontSize: '0.85rem',
@@ -568,7 +568,7 @@ The text will preserve line breaks exactly as you paste it."
                                                         <button
                                                             type="button"
                                                             onClick={() => removeQuestion(gIndex, qIndex)}
-                                                            style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.8rem' }}
+                                                            style={{ background: 'none', border: 'none', color: 'var(--color-danger)', cursor: 'pointer', fontSize: '0.8rem' }}
                                                         >
                                                             ✕
                                                         </button>
@@ -582,7 +582,7 @@ The text will preserve line breaks exactly as you paste it."
                                                         value={q.subHeading || ''}
                                                         onChange={(e) => updateQuestion(gIndex, qIndex, 'subHeading', e.target.value)}
                                                         placeholder="Sub-heading (e.g. Advantages of cork stoppers) - leave empty if not needed"
-                                                        style={{ width: '100%', fontSize: '0.85rem', fontStyle: 'italic', background: 'rgba(99, 102, 241, 0.05)' }}
+                                                        style={{ width: '100%', fontSize: '0.85rem', fontStyle: 'italic', background: 'var(--primary-subtle)' }}
                                                     />
                                                 </div>
 
@@ -611,8 +611,8 @@ The text will preserve line breaks exactly as you paste it."
                                                                 />
                                                             ))}
                                                         </div>
-                                                        <div style={{ marginBottom: '10px', padding: '10px', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '6px', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
-                                                            <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.75rem', fontWeight: '600', color: '#16a34a' }}>
+                                                        <div style={{ marginBottom: '10px', padding: '10px', background: 'var(--color-success-bg)', borderRadius: '6px', border: '1px solid var(--color-success-border-soft)' }}>
+                                                            <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.75rem', fontWeight: '600', color: 'var(--color-success)' }}>
                                                                 Correct Answer(s) - Tick one or more
                                                             </label>
                                                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -632,9 +632,9 @@ The text will preserve line breaks exactly as you paste it."
                                                                             gap: '6px', 
                                                                             cursor: 'pointer',
                                                                             padding: '6px 10px',
-                                                                            background: isChecked ? 'rgba(34, 197, 94, 0.2)' : 'var(--bg-elevated)',
+                                                                            background: isChecked ? 'var(--color-success-bg)' : 'var(--bg-elevated)',
                                                                             borderRadius: '6px',
-                                                                            border: `1px solid ${isChecked ? '#16a34a' : 'var(--border)'}`,
+                                                                            border: `1px solid ${isChecked ? 'var(--color-success)' : 'var(--border)'}`,
                                                                             fontSize: '0.85rem',
                                                                             fontWeight: isChecked ? '600' : '400'
                                                                         }}>
@@ -642,7 +642,7 @@ The text will preserve line breaks exactly as you paste it."
                                                                                 type="checkbox"
                                                                                 checked={isChecked}
                                                                                 onChange={() => toggleCorrectAnswer(gIndex, qIndex, option)}
-                                                                                style={{ width: '16px', height: '16px', accentColor: '#16a34a' }}
+                                                                                style={{ width: '16px', height: '16px', accentColor: 'var(--color-success)' }}
                                                                             />
                                                                             <span>{String.fromCharCode(65 + optIndex)}: {option.substring(0, 30)}{option.length > 30 ? '...' : ''}</span>
                                                                         </label>
@@ -663,7 +663,7 @@ The text will preserve line breaks exactly as you paste it."
                                                                 value={q.correctAnswer}
                                                                 onChange={(e) => updateQuestion(gIndex, qIndex, 'correctAnswer', e.target.value)}
                                                                 placeholder={group.type === 'true-false-not-given' ? 'TRUE/FALSE/NOT GIVEN' : 'Answer'}
-                                                                style={{ width: '100%', fontSize: '0.9rem', borderColor: 'rgba(34, 197, 94, 0.5)' }}
+                                                                style={{ width: '100%', fontSize: '0.9rem', borderColor: 'var(--color-success-border-soft)' }}
                                                             />
                                                         </div>
                                                         <div>
@@ -723,13 +723,13 @@ The text will preserve line breaks exactly as you paste it."
                             disabled={loading}
                             style={{
                                 padding: '14px 32px',
-                                background: loading ? '#666' : 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                                color: '#fff',
+                                background: loading ? 'var(--color-border-light)' : 'var(--color-primary)',
+                                color: 'var(--color-surface)',
                                 border: 'none',
                                 borderRadius: '12px',
                                 fontWeight: '600',
                                 cursor: loading ? 'not-allowed' : 'pointer',
-                                boxShadow: '0 4px 15px rgba(99, 102, 241, 0.3)'
+                                boxShadow: 'var(--shadow-hover)'
                             }}
                         >
                             {loading ? 'Creating...' : 'Create Passage'}

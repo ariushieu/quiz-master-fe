@@ -374,7 +374,7 @@ Write your answers in boxes ${range} on your answer sheet.`;
                     <div style={{ background: 'var(--bg-elevated)', borderRadius: '16px', border: '1px solid var(--border)', padding: '24px', marginBottom: '24px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                             <h2 style={{ fontSize: '1.2rem', fontWeight: '600' }}>Question Groups ({totalQuestions} questions)</h2>
-                            <button type="button" onClick={addGroup} style={{ padding: '8px 16px', background: 'linear-gradient(135deg, #22c55e, #16a34a)', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '500' }}>
+                            <button type="button" onClick={addGroup} style={{ padding: '8px 16px', background: 'var(--color-success)', color: 'var(--color-surface)', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '500' }}>
                                 + Add Group
                             </button>
                         </div>
@@ -385,9 +385,9 @@ Write your answers in boxes ${range} on your answer sheet.`;
                             formData.questionGroups.map((group, gIndex) => (
                                 <div key={gIndex} style={{ background: 'var(--bg-surface)', borderRadius: '12px', border: '1px solid var(--border)', marginBottom: '16px', overflow: 'hidden' }}>
                                     {/* Group Header */}
-                                    <div style={{ padding: '12px 16px', background: 'rgba(99, 102, 241, 0.1)', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div style={{ padding: '12px 16px', background: 'var(--primary-subtle)', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <span style={{ fontWeight: '600', color: 'var(--primary)' }}>Group {gIndex + 1}</span>
-                                        <button type="button" onClick={() => removeGroup(gIndex)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.85rem' }}>Delete Group</button>
+                                        <button type="button" onClick={() => removeGroup(gIndex)} style={{ background: 'none', border: 'none', color: 'var(--color-danger)', cursor: 'pointer', fontSize: '0.85rem' }}>Delete Group</button>
                                     </div>
 
                                     <div style={{ padding: '16px' }}>
@@ -425,7 +425,7 @@ Write your answers in boxes ${range} on your answer sheet.`;
                                             <div style={{ borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                                                     <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Questions ({group.questions.length})</span>
-                                                    <button type="button" onClick={() => addQuestion(gIndex)} style={{ padding: '6px 12px', background: 'rgba(99, 102, 241, 0.1)', color: '#6366f1', border: '1px solid rgba(99, 102, 241, 0.3)', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600' }}>+ Add Question</button>
+                                                    <button type="button" onClick={() => addQuestion(gIndex)} style={{ padding: '6px 12px', background: 'var(--primary-subtle)', color: 'var(--color-primary)', border: '1px solid var(--color-border)', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600' }}>+ Add Question</button>
                                                 </div>
 
                                                 {group.questions.map((q, qIndex) => (
@@ -433,10 +433,10 @@ Write your answers in boxes ${range} on your answer sheet.`;
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                                                         <span style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--primary)' }}>Q{qIndex + 1}</span>
                                                         {group.questions.length > 1 && (
-                                                            <button type="button" onClick={() => removeQuestion(gIndex, qIndex)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.75rem' }}>✕</button>
+                                                            <button type="button" onClick={() => removeQuestion(gIndex, qIndex)} style={{ background: 'none', border: 'none', color: 'var(--color-danger)', cursor: 'pointer', fontSize: '0.75rem' }}>✕</button>
                                                         )}
                                                     </div>
-                                                    <input className="form-input" value={q.subHeading || ''} onChange={(e) => updateQuestion(gIndex, qIndex, 'subHeading', e.target.value)} placeholder="Sub-heading (e.g. Advantages of cork stoppers)" style={{ width: '100%', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '6px', background: 'rgba(99, 102, 241, 0.05)' }} />
+                                                    <input className="form-input" value={q.subHeading || ''} onChange={(e) => updateQuestion(gIndex, qIndex, 'subHeading', e.target.value)} placeholder="Sub-heading (e.g. Advantages of cork stoppers)" style={{ width: '100%', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '6px', background: 'var(--primary-subtle)' }} />
                                                     <input className="form-input" value={q.questionText} onChange={(e) => updateQuestion(gIndex, qIndex, 'questionText', e.target.value)} placeholder="Question text..." style={{ width: '100%', fontSize: '0.85rem', marginBottom: '8px' }} />
                                                     
                                                     {/* Multiple choice options */}
@@ -454,8 +454,8 @@ Write your answers in boxes ${range} on your answer sheet.`;
                                                                     />
                                                                 ))}
                                                             </div>
-                                                            <div style={{ marginBottom: '8px', padding: '8px', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '6px', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
-                                                                <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.7rem', fontWeight: '600', color: '#16a34a' }}>
+                                                            <div style={{ marginBottom: '8px', padding: '8px', background: 'var(--color-success-bg)', borderRadius: '6px', border: '1px solid var(--color-success-border-soft)' }}>
+                                                                <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.7rem', fontWeight: '600', color: 'var(--color-success)' }}>
                                                                     Correct Answer(s) - Tick one or more
                                                                 </label>
                                                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
@@ -475,9 +475,9 @@ Write your answers in boxes ${range} on your answer sheet.`;
                                                                                 gap: '4px', 
                                                                                 cursor: 'pointer',
                                                                                 padding: '4px 8px',
-                                                                                background: isChecked ? 'rgba(34, 197, 94, 0.2)' : 'var(--bg-elevated)',
+                                                                                background: isChecked ? 'var(--color-success-bg)' : 'var(--bg-elevated)',
                                                                                 borderRadius: '4px',
-                                                                                border: `1px solid ${isChecked ? '#16a34a' : 'var(--border)'}`,
+                                                                                border: `1px solid ${isChecked ? 'var(--color-success)' : 'var(--border)'}`,
                                                                                 fontSize: '0.75rem',
                                                                                 fontWeight: isChecked ? '600' : '400'
                                                                             }}>
@@ -485,7 +485,7 @@ Write your answers in boxes ${range} on your answer sheet.`;
                                                                                     type="checkbox"
                                                                                     checked={isChecked}
                                                                                     onChange={() => toggleCorrectAnswer(gIndex, qIndex, option)}
-                                                                                    style={{ width: '14px', height: '14px', accentColor: '#16a34a' }}
+                                                                                    style={{ width: '14px', height: '14px', accentColor: 'var(--color-success)' }}
                                                                                 />
                                                                                 <span>{String.fromCharCode(65 + optIndex)}: {option.substring(0, 25)}{option.length > 25 ? '...' : ''}</span>
                                                                             </label>
@@ -499,7 +499,7 @@ Write your answers in boxes ${range} on your answer sheet.`;
                                                     {/* For non-multiple-choice, show text input for correct answer */}
                                                     {group.type !== 'multiple-choice' && (
                                                         <div className="form-grid-1-2">
-                                                            <input className="form-input" value={q.correctAnswer} onChange={(e) => updateQuestion(gIndex, qIndex, 'correctAnswer', e.target.value)} placeholder="Answer" style={{ fontSize: '0.85rem', borderColor: 'rgba(34, 197, 94, 0.5)' }} />
+                                                            <input className="form-input" value={q.correctAnswer} onChange={(e) => updateQuestion(gIndex, qIndex, 'correctAnswer', e.target.value)} placeholder="Answer" style={{ fontSize: '0.85rem', borderColor: 'var(--color-success-border-soft)' }} />
                                                             <input className="form-input" value={q.explanation} onChange={(e) => updateQuestion(gIndex, qIndex, 'explanation', e.target.value)} placeholder="Explanation..." style={{ fontSize: '0.85rem' }} />
                                                         </div>
                                                     )}
@@ -521,7 +521,7 @@ Write your answers in boxes ${range} on your answer sheet.`;
                     {/* Submit */}
                     <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
                         <button type="button" onClick={() => navigate('/admin')} style={{ padding: '14px 28px', background: 'var(--bg-elevated)', color: 'var(--text-primary)', border: '1px solid var(--border)', borderRadius: '12px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
-                        <button type="submit" disabled={saving} style={{ padding: '14px 32px', background: saving ? '#666' : 'linear-gradient(135deg, #6366f1, #8b5cf6)', color: '#fff', border: 'none', borderRadius: '12px', fontWeight: '600', cursor: saving ? 'not-allowed' : 'pointer' }}>
+                        <button type="submit" disabled={saving} style={{ padding: '14px 32px', background: saving ? 'var(--color-border-light)' : 'var(--color-primary)', color: 'var(--color-surface)', border: 'none', borderRadius: '12px', fontWeight: '600', cursor: saving ? 'not-allowed' : 'pointer' }}>
                             {saving ? 'Saving...' : 'Save Changes'}
                         </button>
                     </div>

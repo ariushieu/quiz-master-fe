@@ -94,8 +94,8 @@ export default function SetList() {
                                     <h3 className="set-card-title">{set.title}</h3>
                                     {set.isPublic && (
                                         <span style={{
-                                            background: 'var(--primary-color)',
-                                            color: 'white',
+                                            background: 'var(--color-primary)',
+                                            color: 'var(--color-surface)',
                                             padding: '2px 8px',
                                             borderRadius: '12px',
                                             fontSize: '0.7rem',
@@ -132,13 +132,13 @@ export default function SetList() {
                                     </button>
                                 </div>
                                 {set.isPublic && (
-                                    <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #eee' }}>
+                                    <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid var(--color-border)' }}>
                                         <button
                                             className="btn btn-sm"
                                             style={{
                                                 width: '100%',
-                                                background: '#f0f0f0',
-                                                color: '#555',
+                                                background: 'var(--color-border-light)',
+                                                color: 'var(--color-text-secondary)',
                                                 fontSize: '0.8rem',
                                                 display: 'flex',
                                                 justifyContent: 'center',
@@ -169,7 +169,7 @@ export default function SetList() {
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    background: 'rgba(0,0,0,0.75)',
+                    background: 'var(--color-overlay-75)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

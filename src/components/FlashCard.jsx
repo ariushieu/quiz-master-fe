@@ -82,9 +82,9 @@ export default function FlashCard({ term, definition, note, onAskAI }) {
                         <p className="flashcard-label">Definition</p>
                         <p className="flashcard-content">{definition}</p>
                         {note && (
-                            <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+                            <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--color-border)' }}>
                                 <p className="flashcard-label" style={{ fontSize: '0.75rem' }}>Note</p>
-                                <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.85)', lineHeight: '1.5', marginTop: '4px' }}>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', lineHeight: '1.5', marginTop: '4px' }}>
                                     {note}
                                 </p>
                             </div>

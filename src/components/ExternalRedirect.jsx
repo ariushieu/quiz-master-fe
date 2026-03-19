@@ -1,22 +1,22 @@
 import { useEffect } from 'react';
+import { MaintenancePlaceholder } from './ui/MaintenancePlaceholder';
 
 export default function ExternalRedirect({ url }) {
   useEffect(() => {
-    window.location.href = url;
+    // Keep existing redirect behavior, but show an IELTS maintenance UI briefly
+    // so users are not stuck on a blank/unstyled state.
+    const t = window.setTimeout(() => {
+      window.location.href = url;
+    }, 800);
+
+    return () => window.clearTimeout(t);
   }, [url]);
 
   return (
-    <div className="page">
-      <div className="container" style={{ maxWidth: '600px', textAlign: 'center', paddingTop: '60px' }}>
-        <div className="card" style={{ padding: '48px 32px' }}>
-          <div className="loading">
-            <div className="spinner"></div>
-          </div>
-          <p className="text-secondary" style={{ marginTop: '24px' }}>
-            Redirecting to {url}...
-          </p>
-        </div>
-      </div>
-    </div>
+    <MaintenancePlaceholder
+      title="Tính năng đang được phát triển"
+      message="Chúng tôi đang hoàn thiện trải nghiệm Grammar. Vui lòng chờ trong giây lát..."
+      fullPage
+    />
   );
 }

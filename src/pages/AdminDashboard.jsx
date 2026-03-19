@@ -114,16 +114,16 @@ export default function AdminDashboard() {
                     alignItems: 'center',
                     marginBottom: '40px',
                     padding: '24px 32px',
-                    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%)',
+                    background: 'var(--primary-subtle)',
                     borderRadius: '20px',
-                    border: '1px solid rgba(255,255,255,0.1)'
+                    border: '1px solid var(--color-border)'
                 }}>
                     <div>
                         <h1 style={{
                             fontSize: '2rem',
                             fontWeight: '700',
                             marginBottom: '8px',
-                            background: 'linear-gradient(135deg, #6366f1, #a855f7)',
+                            background: 'linear-gradient(135deg, var(--color-primary), var(--skill-reading))',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent'
                         }}>
@@ -137,7 +137,7 @@ export default function AdminDashboard() {
                         width: '60px',
                         height: '60px',
                         borderRadius: '16px',
-                        background: 'linear-gradient(135deg, #6366f1, #a855f7)',
+                        background: 'linear-gradient(135deg, var(--color-primary), var(--skill-reading))',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -171,9 +171,9 @@ export default function AdminDashboard() {
                                 fontSize: '0.95rem',
                                 transition: 'all 0.2s ease',
                                 background: activeTab === tab.id
-                                    ? 'linear-gradient(135deg, #6366f1, #8b5cf6)'
+                                    ? 'var(--color-primary)'
                                     : 'transparent',
-                                color: activeTab === tab.id ? '#fff' : 'var(--text-secondary)',
+                                color: activeTab === tab.id ? 'var(--color-surface)' : 'var(--text-secondary)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -211,15 +211,15 @@ export default function AdminDashboard() {
                                 </div>
                                 <Link to="/reading/create" style={{
                                     padding: '12px 24px',
-                                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                                    color: '#fff',
+                                    background: 'var(--color-success)',
+                                    color: 'var(--color-surface)',
                                     borderRadius: '12px',
                                     fontWeight: '600',
                                     textDecoration: 'none',
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: '8px',
-                                    boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)'
+                                    boxShadow: 'var(--shadow-card)'
                                 }}>
                                     <span style={{ fontSize: '1.2rem' }}>+</span>
                                     Create New Passage
@@ -234,7 +234,7 @@ export default function AdminDashboard() {
                                             height: '80px',
                                             margin: '0 auto 20px',
                                             borderRadius: '20px',
-                                            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2))',
+                                            background: 'var(--primary-subtle)',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
@@ -264,11 +264,11 @@ export default function AdminDashboard() {
                                                     width: '48px',
                                                     height: '48px',
                                                     borderRadius: '12px',
-                                                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                    background: 'var(--color-primary)',
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
-                                                    color: '#fff',
+                                                    color: 'var(--color-surface)',
                                                     fontWeight: '700'
                                                 }}>
                                                     📄
@@ -304,10 +304,10 @@ export default function AdminDashboard() {
                                                     to={`/reading/edit/${p._id}`}
                                                     style={{
                                                         padding: '8px 16px',
-                                                        background: 'rgba(59, 130, 246, 0.2)',
+                                                        background: 'var(--primary-subtle)',
                                                         border: 'none',
                                                         borderRadius: '8px',
-                                                        color: '#3b82f6',
+                                                            color: 'var(--color-primary-hover)',
                                                         textDecoration: 'none',
                                                         fontSize: '0.85rem',
                                                         fontWeight: '500'
@@ -320,10 +320,10 @@ export default function AdminDashboard() {
                                                     disabled={actionLoading}
                                                     style={{
                                                         padding: '8px 16px',
-                                                        background: 'rgba(239, 68, 68, 0.2)',
+                                                        background: 'var(--color-danger-bg)',
                                                         border: 'none',
                                                         borderRadius: '8px',
-                                                        color: '#ef4444',
+                                                            color: 'var(--color-danger)',
                                                         cursor: actionLoading ? 'not-allowed' : 'pointer',
                                                         fontSize: '0.85rem',
                                                         fontWeight: '500',
@@ -365,10 +365,10 @@ export default function AdminDashboard() {
                                     <div
                                         key={u.id}
                                         style={{
-                                            background: selectedUser === u.id ? 'rgba(99, 102, 241, 0.1)' : 'var(--bg-surface)',
+                                            background: selectedUser === u.id ? 'var(--primary-subtle)' : 'var(--bg-surface)',
                                             borderRadius: '16px',
                                             marginBottom: '12px',
-                                            border: selectedUser === u.id ? '1px solid rgba(99, 102, 241, 0.3)' : '1px solid var(--border)',
+                                            border: selectedUser === u.id ? '1px solid var(--color-primary-border-soft)' : '1px solid var(--border)',
                                             overflow: 'hidden',
                                             transition: 'all 0.2s ease'
                                         }}
@@ -391,11 +391,11 @@ export default function AdminDashboard() {
                                                         width: '48px',
                                                         height: '48px',
                                                         borderRadius: '12px',
-                                                        background: 'linear-gradient(135deg, #6366f1, #a855f7)',
+                                                        background: 'linear-gradient(135deg, var(--color-primary), var(--skill-reading))',
                                                         display: 'flex',
                                                         alignItems: 'center',
                                                         justifyContent: 'center',
-                                                        color: '#fff',
+                                                        color: 'var(--color-surface)',
                                                         fontWeight: '700',
                                                         fontSize: '1.2rem'
                                                     }}>
@@ -409,8 +409,8 @@ export default function AdminDashboard() {
                                                             <span style={{
                                                                 fontSize: '10px',
                                                                 padding: '2px 8px',
-                                                                background: 'linear-gradient(135deg, #ef4444, #dc2626)',
-                                                                color: '#fff',
+                                                                background: 'var(--color-danger)',
+                                                                color: 'var(--color-surface)',
                                                                 borderRadius: '6px',
                                                                 fontWeight: '700'
                                                             }}>ADMIN</span>
@@ -482,9 +482,9 @@ export default function AdminDashboard() {
                                                                         fontSize: '0.75rem',
                                                                         fontWeight: '600',
                                                                         background: hasBadge
-                                                                            ? 'rgba(239, 68, 68, 0.2)'
-                                                                            : 'rgba(34, 197, 94, 0.2)',
-                                                                        color: hasBadge ? '#ef4444' : '#22c55e',
+                                                                            ? 'var(--color-danger-bg)'
+                                                                            : 'var(--color-success-bg)',
+                                                                        color: hasBadge ? 'var(--color-danger)' : 'var(--color-success)',
                                                                         opacity: actionLoading ? 0.5 : 1
                                                                     }}
                                                                 >
@@ -509,28 +509,28 @@ export default function AdminDashboard() {
                         {/* Stats Cards */}
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '24px' }}>
                             <div style={{
-                                background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                background: 'var(--color-primary)',
                                 borderRadius: '20px',
                                 padding: '24px',
-                                color: '#fff'
+                                color: 'var(--color-surface)'
                             }}>
                                 <div style={{ fontSize: '0.85rem', opacity: 0.8, marginBottom: '8px' }}>Total Users</div>
                                 <div style={{ fontSize: '2.5rem', fontWeight: '700' }}>{users.length}</div>
                             </div>
                             <div style={{
-                                background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                                background: 'var(--color-success)',
                                 borderRadius: '20px',
                                 padding: '24px',
-                                color: '#fff'
+                                color: 'var(--color-surface)'
                             }}>
                                 <div style={{ fontSize: '0.85rem', opacity: 0.8, marginBottom: '8px' }}>Active Badges</div>
                                 <div style={{ fontSize: '2.5rem', fontWeight: '700' }}>{badges.length}</div>
                             </div>
                             <div style={{
-                                background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                                background: 'var(--color-warning)',
                                 borderRadius: '20px',
                                 padding: '24px',
-                                color: '#fff'
+                                color: 'var(--color-surface)'
                             }}>
                                 <div style={{ fontSize: '0.85rem', opacity: 0.8, marginBottom: '8px' }}>Admins</div>
                                 <div style={{ fontSize: '2.5rem', fontWeight: '700' }}>{users.filter(u => u.role === 'admin').length}</div>

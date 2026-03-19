@@ -109,11 +109,11 @@ export default function Profile() {
                             gap: '8px',
                             padding: '6px 16px',
                             marginTop: '8px',
-                            background: 'rgba(255, 255, 255, 0.1)',
+                            background: 'var(--bg-hover)',
                             borderRadius: '20px',
-                            border: '1px solid rgba(255, 255, 255, 0.2)',
+                            border: '1px solid var(--color-border)',
                             backdropFilter: 'blur(4px)',
-                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                            boxShadow: 'var(--shadow-sm)'
                         }}>
                             {/* <span style={{ fontSize: '1.2rem' }}>📅</span> */}
                             <span style={{
@@ -194,20 +194,20 @@ export default function Profile() {
                                 key={achievement.id}
                                 className={`achievement-card ${achievement.unlocked ? 'unlocked' : 'locked'}`}
                                 style={achievement.id === 'champion' && achievement.unlocked ? {
-                                    border: '1px solid #FFD700',
-                                    background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%)',
-                                    boxShadow: '0 0 15px rgba(255, 215, 0, 0.3)'
+                                    border: '1px solid var(--chart-yellow)',
+                                    background: 'var(--color-warning-bg)',
+                                    boxShadow: 'var(--shadow-card)'
                                 } : {}}
                             >
                                 <div className="achievement-icon" style={achievement.id === 'champion' ? { fontSize: '2rem' } : {}}>{achievement.icon}</div>
                                 <div className="achievement-info">
-                                    <div className="achievement-name" style={achievement.id === 'champion' ? { color: '#FFD700', fontWeight: 'bold' } : {}}>
+                                    <div className="achievement-name" style={achievement.id === 'champion' ? { color: 'var(--chart-yellow)', fontWeight: 'bold' } : {}}>
                                         {achievement.name}
                                     </div>
                                     <div className="achievement-desc">{achievement.description}</div>
                                 </div>
                                 {achievement.unlocked && (
-                                    <div className="achievement-check" style={achievement.id === 'champion' ? { color: '#FFD700' } : {}}>✓</div>
+                                    <div className="achievement-check" style={achievement.id === 'champion' ? { color: 'var(--chart-yellow)' } : {}}>✓</div>
                                 )}
                             </div>
                         ))}

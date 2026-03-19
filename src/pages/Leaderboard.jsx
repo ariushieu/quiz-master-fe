@@ -108,7 +108,7 @@ export default function Leaderboard() {
                     {/* Rank 1 - Gold */}
                     {top3[0] && (
                         <Link to={`/user/${top3[0].username}`} className="podium-item rank-1 gold">
-                            <div className="podium-rank-label" style={{ color: '#fbbf24', top: '-45px' }}>Top 1</div>
+                            <div className="podium-rank-label" style={{ color: 'var(--chart-yellow)', top: '-45px' }}>Top 1</div>
                             <div className="podium-avatar-container">
                                 <Avatar
                                     src={top3[0].avatar}

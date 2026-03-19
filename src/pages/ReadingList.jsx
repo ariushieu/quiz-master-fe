@@ -24,11 +24,11 @@ const ReadingList = () => {
         fetchPassages();
     }, []);
 
-    const getLevelColor = (level) => {
-        if (level.includes('Band 7')) return 'bg-purple-100 text-purple-800';
-        if (level.includes('Band 6')) return 'bg-blue-100 text-blue-800';
-        if (level.includes('Band 5')) return 'bg-green-100 text-green-800';
-        return 'bg-gray-100 text-gray-800';
+    const getLevelBarColor = (level) => {
+        if (level.includes('Band 7') || level.includes('7')) return 'var(--color-primary-light)';
+        if (level.includes('Band 6') || level.includes('6')) return 'var(--color-warning-bg)';
+        if (level.includes('Band 5') || level.includes('5')) return 'var(--color-danger-bg)';
+        return 'var(--color-success-bg)';
     };
 
     return (
@@ -68,12 +68,12 @@ const ReadingList = () => {
                                 }}
                             >
                                 {/* Decorative Header Gradient */}
-                                <div style={{
-                                    height: '6px',
-                                    background: passage.level.includes('7') ? 'linear-gradient(90deg, #a855f7, #d946ef)' :
-                                        passage.level.includes('6') ? 'linear-gradient(90deg, #3b82f6, #06b6d4)' :
-                                            'linear-gradient(90deg, #22c55e, #10b981)'
-                                }} />
+                                <div
+                                    style={{
+                                        height: '6px',
+                                        background: getLevelBarColor(passage.level),
+                                    }}
+                                />
 
                                 <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
 
@@ -86,9 +86,9 @@ const ReadingList = () => {
                                             borderRadius: '20px',
                                             textTransform: 'uppercase',
                                             letterSpacing: '0.05em',
-                                            backgroundColor: 'rgba(255,255,255,0.05)',
+                                            backgroundColor: 'var(--bg-hover)',
                                             color: 'var(--text-secondary)',
-                                            border: '1px solid rgba(255,255,255,0.1)'
+                                            border: '1px solid var(--color-border-light)'
                                         }}>
                                             {passage.level}
                                         </span>

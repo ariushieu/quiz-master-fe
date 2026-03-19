@@ -38,11 +38,11 @@ const TableCompletionQuestion = ({ question, answers, onAnswerChange, showResult
             
                 {groupInstruction && (
                 <div style={{ 
-                    background: 'rgba(99, 102, 241, 0.1)', 
+                    background: 'var(--primary-subtle)',
                     padding: '16px', 
                     borderRadius: '8px', 
                     marginBottom: '20px',
-                    border: '1px solid rgba(99, 102, 241, 0.2)'
+                    border: '1px solid var(--color-primary-border-soft)'
                 }}>
                     <p style={{ 
                         fontSize: '0.95rem', 
@@ -75,12 +75,12 @@ const TableCompletionQuestion = ({ question, answers, onAnswerChange, showResult
                             {tableStructure.headers.map((header, idx) => (
                                 <th key={idx} style={{
                                     background: 'var(--primary)',
-                                    color: '#fff',
+                                    color: 'var(--color-surface)',
                                     padding: '12px 14px',
                                     textAlign: 'left',
                                     fontWeight: '600',
                                     fontSize: '0.9rem',
-                                    borderRight: idx < tableStructure.headers.length - 1 ? '1px solid rgba(255,255,255,0.2)' : 'none'
+                                    borderRight: idx < tableStructure.headers.length - 1 ? '1px solid var(--color-border-light)' : 'none'
                                 }}>
                                     {header}
                                 </th>
@@ -126,13 +126,13 @@ const TableCompletionQuestion = ({ question, answers, onAnswerChange, showResult
                                                         flex: 1,
                                                         padding: '8px 12px',
                                                         border: showResults 
-                                                            ? `2px solid ${isCorrect(cell.blankId, answers[cell.blankId]) ? '#22c55e' : '#ef4444'}`
+                                                            ? `2px solid ${isCorrect(cell.blankId, answers[cell.blankId]) ? 'var(--color-success)' : 'var(--color-danger)'}`
                                                             : '2px solid var(--border)',
                                                         borderRadius: '6px',
                                                         background: showResults
                                                             ? isCorrect(cell.blankId, answers[cell.blankId]) 
-                                                                ? 'rgba(34, 197, 94, 0.1)' 
-                                                                : 'rgba(239, 68, 68, 0.1)'
+                                                                ? 'var(--color-success-bg)'
+                                                                : 'var(--color-danger-bg)'
                                                             : 'var(--bg-base)',
                                                         color: 'var(--text-primary)',
                                                         fontSize: '0.9rem',
@@ -146,7 +146,7 @@ const TableCompletionQuestion = ({ question, answers, onAnswerChange, showResult
                                                         fontSize: '1.2rem',
                                                         minWidth: '24px',
                                                         fontWeight: 'bold',
-                                                        color: isCorrect(cell.blankId, answers[cell.blankId]) ? '#22c55e' : '#ef4444'
+                                                        color: isCorrect(cell.blankId, answers[cell.blankId]) ? 'var(--color-success)' : 'var(--color-danger)'
                                                     }}>
                                                         {isCorrect(cell.blankId, answers[cell.blankId]) ? '✓' : '✗'}
                                                     </span>
@@ -159,11 +159,11 @@ const TableCompletionQuestion = ({ question, answers, onAnswerChange, showResult
                                             <div style={{ 
                                                 marginTop: '8px', 
                                                 padding: '6px 10px',
-                                                background: 'rgba(34, 197, 94, 0.1)',
+                                                background: 'var(--color-success-bg)',
                                                 borderRadius: '6px',
                                                 fontSize: '0.85rem',
-                                                color: '#16a34a',
-                                                border: '1px solid rgba(34, 197, 94, 0.3)',
+                                                color: 'var(--color-success)',
+                                                border: '1px solid var(--color-success-border-soft)',
                                                 fontWeight: '500'
                                             }}>
                                                 <strong>Correct answer:</strong> {cell.answer}

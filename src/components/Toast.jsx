@@ -9,11 +9,11 @@ const Toast = ({ message, type = 'success', onClose, duration = 3000 }) => {
         return () => clearTimeout(timer);
     }, [onClose, duration]);
 
-    const bgColors = {
-        success: 'rgba(34, 197, 94, 0.9)', // var(--success)
-        error: 'rgba(239, 68, 68, 0.9)',   // var(--error)
-        info: 'rgba(59, 130, 246, 0.9)'     // var(--info)
-    };
+  const bgColors = {
+    success: 'var(--color-success)',
+    error: 'var(--color-danger)',
+    info: 'var(--color-primary)',
+  };
 
     return (
         <div
@@ -21,11 +21,11 @@ const Toast = ({ message, type = 'success', onClose, duration = 3000 }) => {
                 position: 'fixed',
                 top: '20px', // Top-right position
                 right: '20px',
-                background: bgColors[type] || bgColors.info,
-                color: 'white',
+        background: bgColors[type] || bgColors.info,
+        color: 'var(--color-surface)',
                 padding: '12px 24px',
                 borderRadius: '8px', // var(--radius-md)
-                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+        boxShadow: 'var(--shadow-card)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
@@ -33,7 +33,7 @@ const Toast = ({ message, type = 'success', onClose, duration = 3000 }) => {
                 animation: 'slideIn 0.3s ease-out',
                 fontWeight: '500',
                 fontSize: '0.95rem',
-                backdropFilter: 'blur(4px)',
+        backdropFilter: 'blur(4px)',
                 minWidth: '280px'
             }}
         >

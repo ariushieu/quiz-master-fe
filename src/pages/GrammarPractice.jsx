@@ -113,10 +113,10 @@ export default function GrammarPractice() {
             <div style={{ marginBottom: '2rem' }}>
               <h3>Examples:</h3>
               {lesson.examples.map((example, idx) => (
-                <div key={idx} style={{ marginBottom: '1rem', padding: '1rem', background: '#f5f5f5', borderRadius: '8px' }}>
+                <div key={idx} style={{ marginBottom: '1rem', padding: '1rem', background: 'var(--color-border-light)', borderRadius: '8px' }}>
                   <p style={{ margin: 0, fontStyle: 'italic' }}>"{example.sentence}"</p>
                   {example.translation && (
-                    <p style={{ margin: '0.5rem 0 0 0', color: '#666', fontSize: '0.9rem' }}>
+                    <p style={{ margin: '0.5rem 0 0 0', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>
                       {example.translation}
                     </p>
                   )}
@@ -150,8 +150,8 @@ export default function GrammarPractice() {
             <span>Question {currentExercise + 1} of {lesson.exercises.length}</span>
             <span>{Math.round(progress)}%</span>
           </div>
-          <div style={{ height: '4px', background: '#eee', borderRadius: '2px', overflow: 'hidden' }}>
-            <div style={{ height: '100%', background: '#4CAF50', width: `${progress}%`, transition: 'width 0.3s' }} />
+          <div style={{ height: '4px', background: 'var(--color-border-light)', borderRadius: '2px', overflow: 'hidden' }}>
+            <div style={{ height: '100%', background: 'var(--color-success)', width: `${progress}%`, transition: 'width 0.3s' }} />
           </div>
         </div>
 
@@ -201,7 +201,7 @@ function ExerciseComponent({ exercise, answer, onAnswer }) {
       <div>
         <h3>{exercise.question}</h3>
         {exercise.hint && (
-          <p style={{ color: '#666', fontSize: '0.9rem', fontStyle: 'italic' }}>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', fontStyle: 'italic' }}>
             💡 Hint: {exercise.hint}
           </p>
         )}
@@ -212,10 +212,10 @@ function ExerciseComponent({ exercise, answer, onAnswer }) {
               style={{
                 padding: '1rem',
                 border: '2px solid',
-                borderColor: answer === option ? '#4CAF50' : '#ddd',
+                borderColor: answer === option ? 'var(--color-success)' : 'var(--color-border-light)',
                 borderRadius: '8px',
                 cursor: 'pointer',
-                background: answer === option ? '#f0f9f0' : 'white'
+                background: answer === option ? 'var(--color-success-bg)' : 'var(--color-surface)'
               }}
             >
               <input
@@ -241,7 +241,7 @@ function ExerciseComponent({ exercise, answer, onAnswer }) {
       <div>
         <h3>Fill in the blanks:</h3>
         {exercise.hint && (
-          <p style={{ color: '#666', fontSize: '0.9rem', fontStyle: 'italic' }}>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', fontStyle: 'italic' }}>
             💡 Hint: {exercise.hint}
           </p>
         )}
@@ -260,7 +260,7 @@ function ExerciseComponent({ exercise, answer, onAnswer }) {
                   }}
                   style={{
                     padding: '0.25rem 0.5rem',
-                    border: '1px solid #ddd',
+                    border: '1px solid var(--color-border-light)',
                     borderRadius: '4px',
                     minWidth: '100px',
                     margin: '0 0.25rem'
@@ -279,7 +279,7 @@ function ExerciseComponent({ exercise, answer, onAnswer }) {
       <div>
         <h3>{exercise.question}</h3>
         {exercise.hint && (
-          <p style={{ color: '#666', fontSize: '0.9rem', fontStyle: 'italic' }}>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', fontStyle: 'italic' }}>
             💡 Hint: {exercise.hint}
           </p>
         )}
@@ -291,7 +291,7 @@ function ExerciseComponent({ exercise, answer, onAnswer }) {
             width: '100%',
             minHeight: '100px',
             padding: '1rem',
-            border: '1px solid #ddd',
+            border: '1px solid var(--color-border-light)',
             borderRadius: '8px',
             fontSize: '1rem',
             marginTop: '1rem'

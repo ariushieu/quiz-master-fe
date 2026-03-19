@@ -178,8 +178,8 @@ const ReadingPractice = () => {
                             fontWeight: 'bold',
                             fontSize: '1.2rem',
                             fontFamily: 'monospace',
-                            color: timeLeft < 300 ? '#ff4d4f' : 'var(--primary)',
-                            background: 'rgba(0,0,0,0.2)',
+                            color: timeLeft < 300 ? 'var(--color-danger)' : 'var(--primary)',
+                            background: 'var(--color-overlay-20)',
                             padding: '4px 8px',
                             borderRadius: '6px',
                             lineHeight: 1
@@ -224,7 +224,7 @@ const ReadingPractice = () => {
                                             justifyContent: 'center',
                                             borderRadius: '50%',
                                             background: isAnswered ? 'var(--primary)' : 'var(--bg-elevated)',
-                                            color: isAnswered ? '#fff' : 'var(--text-secondary)',
+                                            color: isAnswered ? 'var(--color-surface)' : 'var(--text-secondary)',
                                             border: '1px solid var(--border)',
                                             fontSize: '0.8rem',
                                             fontWeight: 'bold',
@@ -286,7 +286,7 @@ const ReadingPractice = () => {
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    background: 'rgba(0, 0, 0, 0.6)',
+                    background: 'var(--color-overlay-60)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -299,7 +299,7 @@ const ReadingPractice = () => {
                         padding: '32px',
                         maxWidth: '450px',
                         width: '90%',
-                        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+                        boxShadow: '0 20px 60px var(--color-overlay-30)',
                         border: '1px solid var(--border)'
                     }}>
                         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
@@ -337,14 +337,14 @@ const ReadingPractice = () => {
                                 style={{
                                     flex: 1,
                                     padding: '14px',
-                                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                                    color: '#fff',
+                                    background: 'var(--color-primary)',
+                                    color: 'var(--color-surface)',
                                     border: 'none',
                                     borderRadius: '10px',
                                     fontSize: '1rem',
                                     fontWeight: '600',
                                     cursor: 'pointer',
-                                    boxShadow: '0 4px 12px rgba(99, 102, 241, 0.4)',
+                                    boxShadow: 'var(--shadow-hover)',
                                     transition: 'all 0.2s'
                                 }}
                                 onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
@@ -364,18 +364,29 @@ const ReadingPractice = () => {
 
 // Results Card Component
 const ResultsCard = ({ score }) => {
-    const getScoreColor = (percentage) => {
-        if (percentage >= 80) return '#22c55e';
-        if (percentage >= 60) return '#f59e0b';
-        return '#ef4444';
-    };
+    const variant =
+        score.percentage >= 80 ? 'success' : score.percentage >= 60 ? 'warning' : 'danger';
+
+    const mainColor =
+        variant === 'success'
+            ? 'var(--color-success)'
+            : variant === 'warning'
+              ? 'var(--color-warning)'
+              : 'var(--color-danger)';
+
+    const bgColor =
+        variant === 'success'
+            ? 'var(--color-success-bg)'
+            : variant === 'warning'
+              ? 'var(--color-warning-bg)'
+              : 'var(--color-danger-bg)';
 
     return (
         <div className="card" style={{ 
             marginBottom: '24px', 
-            background: `linear-gradient(135deg, ${getScoreColor(score.percentage)}15, ${getScoreColor(score.percentage)}05)`,
-            border: `3px solid ${getScoreColor(score.percentage)}`,
-            boxShadow: `0 8px 24px ${getScoreColor(score.percentage)}40`,
+            background: bgColor,
+            border: `1.5px solid ${mainColor}`,
+            boxShadow: 'var(--shadow-card)',
             padding: '32px'
         }}>
             <div style={{ textAlign: 'center' }}>
@@ -395,7 +406,7 @@ const ResultsCard = ({ score }) => {
                         <div style={{ 
                             fontSize: '3rem', 
                             fontWeight: 'bold', 
-                            color: getScoreColor(score.percentage),
+                            color: mainColor,
                             lineHeight: 1
                         }}>
                             {score.percentage}%
@@ -432,9 +443,9 @@ const ResultsCard = ({ score }) => {
                     fontSize: '0.9rem',
                     color: 'var(--text-secondary)'
                 }}>
-                    <span style={{ color: '#22c55e' }}>✓ {score.correct} Correct</span>
+                    <span style={{ color: 'var(--color-success)' }}>✓ {score.correct} Correct</span>
                     <span>•</span>
-                    <span style={{ color: '#ef4444' }}>✗ {score.total - score.correct} Incorrect</span>
+                    <span style={{ color: 'var(--color-danger)' }}>✗ {score.total - score.correct} Incorrect</span>
                 </div>
             </div>
         </div>

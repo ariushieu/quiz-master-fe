@@ -90,9 +90,9 @@ const TableBuilder = ({ tableStructure, onChange }) => {
                     onClick={addRow}
                     style={{
                         padding: '8px 16px',
-                        background: 'rgba(99, 102, 241, 0.1)',
-                        color: '#6366f1',
-                        border: '1px solid rgba(99, 102, 241, 0.3)',
+                        background: 'var(--primary-subtle)',
+                        color: 'var(--color-primary)',
+                        border: '1px solid var(--color-primary-border-soft)',
                         borderRadius: '6px',
                         cursor: 'pointer',
                         fontSize: '0.85rem',
@@ -106,9 +106,9 @@ const TableBuilder = ({ tableStructure, onChange }) => {
                     onClick={addColumn}
                     style={{
                         padding: '8px 16px',
-                        background: 'rgba(99, 102, 241, 0.1)',
-                        color: '#6366f1',
-                        border: '1px solid rgba(99, 102, 241, 0.3)',
+                        background: 'var(--primary-subtle)',
+                        color: 'var(--color-primary)',
+                        border: '1px solid var(--color-primary-border-soft)',
                         borderRadius: '6px',
                         cursor: 'pointer',
                         fontSize: '0.85rem',
@@ -138,9 +138,9 @@ const TableBuilder = ({ tableStructure, onChange }) => {
                             {headers.map((header, idx) => (
                                 <th key={idx} style={{
                                     background: 'var(--primary)',
-                                    color: '#fff',
+                                    color: 'var(--color-surface)',
                                     padding: '12px 10px',
-                                    borderRight: idx < headers.length - 1 ? '1px solid rgba(255,255,255,0.2)' : 'none',
+                                    borderRight: idx < headers.length - 1 ? '1px solid var(--color-border-light)' : 'none',
                                     position: 'relative',
                                     verticalAlign: 'middle'
                                 }}>
@@ -156,8 +156,8 @@ const TableBuilder = ({ tableStructure, onChange }) => {
                                                 border: 'none',
                                                 borderRadius: '6px',
                                                 fontSize: '0.9rem',
-                                                background: '#fff',
-                                                color: '#000',
+                                                background: 'var(--color-surface)',
+                                                color: 'var(--color-text-primary)',
                                                 fontWeight: '600'
                                             }}
                                         />
@@ -166,9 +166,9 @@ const TableBuilder = ({ tableStructure, onChange }) => {
                                                 type="button"
                                                 onClick={() => removeColumn(idx)}
                                                 style={{
-                                                    background: '#ef4444',
+                                                    background: 'var(--color-danger)',
                                                     border: 'none',
-                                                    color: '#fff',
+                                                    color: 'var(--color-surface)',
                                                     width: '24px',
                                                     height: '24px',
                                                     borderRadius: '6px',
@@ -220,8 +220,8 @@ const TableBuilder = ({ tableStructure, onChange }) => {
                                                     fontSize: '0.8rem',
                                                     borderRadius: '6px',
                                                     border: '2px solid',
-                                                    borderColor: cell.type === 'blank' ? '#6366f1' : 'var(--border)',
-                                                    background: cell.type === 'blank' ? 'rgba(99, 102, 241, 0.1)' : 'var(--bg-base)',
+                                                        borderColor: cell.type === 'blank' ? 'var(--color-primary)' : 'var(--border)',
+                                                    background: cell.type === 'blank' ? 'var(--primary-subtle)' : 'var(--bg-base)',
                                                     color: 'var(--text-primary)',
                                                     fontWeight: cell.type === 'blank' ? '600' : '400',
                                                     cursor: 'pointer'
@@ -273,7 +273,7 @@ const TableBuilder = ({ tableStructure, onChange }) => {
                                                             padding: '8px 10px',
                                                             fontSize: '0.9rem',
                                                             borderRadius: '6px',
-                                                            border: '2px solid #6366f1',
+                                                                border: '2px solid var(--color-primary)',
                                                             background: 'var(--bg-base)',
                                                             color: 'var(--text-primary)',
                                                             fontWeight: '600',
@@ -301,7 +301,7 @@ const TableBuilder = ({ tableStructure, onChange }) => {
                                                             padding: '8px 10px',
                                                             fontSize: '0.9rem',
                                                             borderRadius: '6px',
-                                                            border: '2px solid #22c55e',
+                                                            border: '2px solid var(--color-success)',
                                                             background: 'var(--bg-base)',
                                                             color: 'var(--text-primary)',
                                                             fontWeight: '500'
@@ -323,9 +323,9 @@ const TableBuilder = ({ tableStructure, onChange }) => {
                                             type="button"
                                             onClick={() => removeRow(rIdx)}
                                             style={{
-                                                background: '#ef4444',
+                                                background: 'var(--color-danger)',
                                                 border: 'none',
-                                                color: '#fff',
+                                                color: 'var(--color-surface)',
                                                 padding: '6px 12px',
                                                 borderRadius: '6px',
                                                 cursor: 'pointer',
@@ -345,11 +345,11 @@ const TableBuilder = ({ tableStructure, onChange }) => {
 
             <div style={{
                 padding: '12px',
-                background: 'rgba(99, 102, 241, 0.05)',
+                background: 'var(--primary-subtle)',
                 borderRadius: '6px',
                 fontSize: '0.8rem',
                 color: 'var(--text-secondary)',
-                border: '1px solid rgba(99, 102, 241, 0.2)'
+                border: '1px solid var(--color-primary-border-soft)'
             }}>
                 <strong>Tips:</strong>
                 <ul style={{ margin: '4px 0 0 20px', padding: 0 }}>

@@ -97,9 +97,9 @@ const ReadingText = ({ title, content }) => {
             const range = selection.getRangeAt(0);
             const span = document.createElement('span');
             // Soft Highlight Style (Dark Mode Friendly)
-            span.style.backgroundColor = 'rgba(234, 179, 8, 0.25)'; // Muted Gold background
-            span.style.color = '#fde047'; // Bright Yellow text
-            span.style.borderBottom = '1px solid #eab308'; // Subtle underline
+            span.style.backgroundColor = 'var(--color-warning-bg)'; // Muted warning background
+            span.style.color = 'var(--color-warning)'; // Warning text
+            span.style.borderBottom = '1px solid var(--color-warning)'; // Subtle underline
             span.style.borderRadius = '2px';
             span.style.padding = '0 2px';
             span.className = 'highlight-marker';
