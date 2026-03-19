@@ -53,6 +53,9 @@ export default function MobileMenu({ isOpen, onClose, user, avatar, onLogout }) 
                             <Link to="/reading" className="mobile-menu-item" onClick={handleLinkClick}>
                                 Reading
                             </Link>
+                            <Link to="/grammar" className="mobile-menu-item" onClick={handleLinkClick}>
+                                Grammar
+                            </Link>
                             <Link to="/leaderboard" className="mobile-menu-item" onClick={handleLinkClick}>
                                 Leaderboard
                             </Link>

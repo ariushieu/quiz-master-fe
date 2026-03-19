@@ -67,6 +67,7 @@ export default function Navbar() {
                             <li className="desktop-only"><Link to="/explore">Explore</Link></li>
                             <li className="desktop-only"><Link to="/create">Create</Link></li>
                             <li className="desktop-only"><Link to="/reading">Reading</Link></li>
+                            <li className="desktop-only"><Link to="/grammar">Grammar</Link></li>
                             <li className="desktop-only"><Link to="/leaderboard">Leaderboard</Link></li>
 
                             {/* Desktop Avatar Dropdown */}

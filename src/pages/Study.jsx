@@ -195,6 +195,7 @@ export default function Study() {
                     key={currentIndex}
                     term={currentCard.term}
                     definition={currentCard.definition}
+                    note={currentCard.note}
                     onAskAI={handleAskAI}
                 />
 

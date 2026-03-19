@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function FlashCard({ term, definition, onAskAI }) {
+export default function FlashCard({ term, definition, note, onAskAI }) {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
 
@@ -81,6 +81,14 @@ export default function FlashCard({ term, definition, onAskAI }) {
                     <div>
                         <p className="flashcard-label">Definition</p>
                         <p className="flashcard-content">{definition}</p>
+                        {note && (
+                            <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+                                <p className="flashcard-label" style={{ fontSize: '0.75rem' }}>Note</p>
+                                <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.85)', lineHeight: '1.5', marginTop: '4px' }}>
+                                    {note}
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     <div className="flashcard-actions">

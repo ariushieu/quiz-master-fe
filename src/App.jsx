@@ -19,6 +19,7 @@ import ReadingList from './pages/ReadingList';
 import ReadingPractice from './pages/ReadingPractice';
 import CreateReading from './pages/CreateReading';
 import EditReading from './pages/EditReading';
+import UnderMaintenance from './pages/UnderMaintenance';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -157,6 +158,22 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <ReadingPractice />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/grammar"
+          element={
+            <ProtectedRoute>
+              <UnderMaintenance feature="Grammar Learning" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/grammar/*"
+          element={
+            <ProtectedRoute>
+              <UnderMaintenance feature="Grammar Learning" />
             </ProtectedRoute>
           }
         />

@@ -10,7 +10,7 @@ export default function CreateSet() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [isPublic, setIsPublic] = useState(false);
-    const [cards, setCards] = useState([{ term: '', definition: '' }]);
+    const [cards, setCards] = useState([{ term: '', definition: '', note: '' }]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -26,14 +26,18 @@ export default function CreateSet() {
             setTitle(data.title);
             setDescription(data.description || '');
             setIsPublic(data.isPublic || false);
-            setCards(data.cards.length > 0 ? data.cards : [{ term: '', definition: '' }]);
+            setCards(data.cards.length > 0 ? data.cards.map(card => ({
+                term: card.term,
+                definition: card.definition,
+                note: card.note || ''
+            })) : [{ term: '', definition: '', note: '' }]);
         } catch (err) {
             setError(err.message);
         }
     };
 
     const addCard = () => {
-        setCards([...cards, { term: '', definition: '' }]);
+        setCards([...cards, { term: '', definition: '', note: '' }]);
     };
 
     const removeCard = (index) => {
@@ -163,26 +167,40 @@ export default function CreateSet() {
                                 </button>
                             )}
 
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '20px' }}>
-                                <div className="form-group" style={{ marginBottom: 0 }}>
-                                    <label className="form-label">Term</label>
-                                    <input
-                                        type="text"
-                                        className="form-input"
-                                        placeholder="Enter term"
-                                        value={card.term}
-                                        onChange={(e) => updateCard(index, 'term', e.target.value)}
-                                    />
+                            <div style={{ marginTop: '20px' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                                    <div className="form-group" style={{ marginBottom: 0 }}>
+                                        <label className="form-label">Term</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            placeholder="Enter term"
+                                            value={card.term}
+                                            onChange={(e) => updateCard(index, 'term', e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className="form-group" style={{ marginBottom: 0 }}>
+                                        <label className="form-label">Definition</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            placeholder="Enter definition"
+                                            value={card.definition}
+                                            onChange={(e) => updateCard(index, 'definition', e.target.value)}
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="form-group" style={{ marginBottom: 0 }}>
-                                    <label className="form-label">Definition</label>
-                                    <input
-                                        type="text"
+                                    <label className="form-label">Note (optional)</label>
+                                    <textarea
                                         className="form-input"
-                                        placeholder="Enter definition"
-                                        value={card.definition}
-                                        onChange={(e) => updateCard(index, 'definition', e.target.value)}
+                                        placeholder="Add additional notes, examples, or context..."
+                                        value={card.note || ''}
+                                        onChange={(e) => updateCard(index, 'note', e.target.value)}
+                                        rows="2"
+                                        style={{ resize: 'vertical', minHeight: '60px' }}
                                     />
                                 </div>
                             </div>
