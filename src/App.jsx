@@ -20,6 +20,7 @@ import ReadingPractice from './pages/ReadingPractice';
 import CreateReading from './pages/CreateReading';
 import EditReading from './pages/EditReading';
 import UnderMaintenance from './pages/UnderMaintenance';
+import ExternalRedirect from './components/ExternalRedirect';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -109,7 +110,7 @@ function AppContent() {
           path="/leaderboard"
           element={
             <ProtectedRoute>
-              <Leaderboard />
+              <UnderMaintenance feature="Leaderboard" />
             </ProtectedRoute>
           }
         />
@@ -165,7 +166,7 @@ function AppContent() {
           path="/grammar"
           element={
             <ProtectedRoute>
-              <UnderMaintenance feature="Grammar Learning" />
+              <ExternalRedirect url="https://www.grammarguide.app/" />
             </ProtectedRoute>
           }
         />
@@ -173,7 +174,7 @@ function AppContent() {
           path="/grammar/*"
           element={
             <ProtectedRoute>
-              <UnderMaintenance feature="Grammar Learning" />
+              <ExternalRedirect url="https://www.grammarguide.app/" />
             </ProtectedRoute>
           }
         />
