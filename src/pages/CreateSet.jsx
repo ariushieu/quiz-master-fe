@@ -13,6 +13,8 @@ export default function CreateSet() {
     const [cards, setCards] = useState([{ term: '', definition: '', note: '' }]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [showImportModal, setShowImportModal] = useState(false);
+    const [csvText, setCsvText] = useState('');
 
     useEffect(() => {
         if (isEditing) {
@@ -84,6 +86,93 @@ export default function CreateSet() {
         }
     };
 
+    const parseCSV = (text) => {
+        const lines = text.trim().split('\n');
+        if (lines.length < 2) {
+            setError('CSV must have at least a header row and one data row');
+            return;
+        }
+
+        // Parse header
+        const header = lines[0].split(',').map(h => h.trim().toLowerCase());
+        
+        // Find column indices
+        const termIndex = header.findIndex(h => h === 'term');
+        const ipaIndex = header.findIndex(h => h === 'ipa');
+        const definitionIndex = header.findIndex(h => h === 'definition');
+        const exampleIndex = header.findIndex(h => h === 'example');
+
+        if (termIndex === -1 || definitionIndex === -1) {
+            setError('CSV must have "Term" and "Definition" columns');
+            return;
+        }
+
+        // Parse data rows
+        const newCards = [];
+        for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
+
+            // Handle quoted values with commas
+            const values = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let j = 0; j < line.length; j++) {
+                const char = line[j];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    values.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            values.push(current.trim());
+
+            const term = values[termIndex] || '';
+            const ipa = ipaIndex !== -1 ? values[ipaIndex] : '';
+            const definition = values[definitionIndex] || '';
+            const example = exampleIndex !== -1 ? values[exampleIndex] : '';
+
+            if (term && definition) {
+                // Build note from IPA and Example
+                let note = '';
+                if (ipa) note += `IPA: ${ipa}`;
+                if (example) {
+                    if (note) note += '\n\n';
+                    note += `Example: ${example}`;
+                }
+
+                newCards.push({
+                    term: term.replace(/^"|"$/g, ''), // Remove surrounding quotes
+                    definition: definition.replace(/^"|"$/g, ''),
+                    note: note.replace(/^"|"$/g, '')
+                });
+            }
+        }
+
+        if (newCards.length === 0) {
+            setError('No valid cards found in CSV');
+            return;
+        }
+
+        setCards(newCards);
+        setShowImportModal(false);
+        setCsvText('');
+        setError('');
+    };
+
+    const handleImportCSV = () => {
+        if (!csvText.trim()) {
+            setError('Please paste CSV content');
+            return;
+        }
+        parseCSV(csvText);
+    };
+
     return (
         <div className="page">
             <div className="container" style={{ maxWidth: '800px' }}>
@@ -135,6 +224,23 @@ export default function CreateSet() {
                     </div>
 
                     <h3 style={{ marginBottom: '20px' }}>Cards ({cards.length})</h3>
+
+                    <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+                        <button
+                            type="button"
+                            onClick={() => setShowImportModal(true)}
+                            className="btn btn-secondary"
+                        >
+                            📋 Import from CSV
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setCards([{ term: '', definition: '', note: '' }])}
+                            className="btn btn-secondary"
+                        >
+                            🗑️ Clear All
+                        </button>
+                    </div>
 
                     {cards.map((card, index) => (
                         <div key={index} className="card mb-2 fade-in" style={{ position: 'relative' }}>
@@ -234,6 +340,106 @@ export default function CreateSet() {
                         </button>
                     </div>
                 </form>
+
+                {/* Import CSV Modal */}
+                {showImportModal && (
+                    <>
+                        <div 
+                            className="modal-overlay" 
+                            onClick={() => setShowImportModal(false)}
+                            style={{
+                                position: 'fixed',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                background: 'rgba(0, 0, 0, 0.5)',
+                                zIndex: 999
+                            }}
+                        />
+                        <div 
+                            className="modal-content"
+                            style={{
+                                position: 'fixed',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                background: 'var(--bg-elevated)',
+                                padding: '32px',
+                                borderRadius: 'var(--radius-lg)',
+                                maxWidth: '700px',
+                                width: '90%',
+                                maxHeight: '80vh',
+                                overflow: 'auto',
+                                zIndex: 1000,
+                                boxShadow: 'var(--shadow-lg)'
+                            }}
+                        >
+                            <h2 style={{ marginBottom: '16px' }}>Import Cards from CSV</h2>
+                            
+                            <div style={{ 
+                                background: 'var(--bg-surface)', 
+                                padding: '16px', 
+                                borderRadius: 'var(--radius-md)',
+                                marginBottom: '16px',
+                                fontSize: '0.9rem',
+                                lineHeight: '1.6'
+                            }}>
+                                <strong>CSV Format:</strong>
+                                <pre style={{ 
+                                    margin: '8px 0 0 0', 
+                                    padding: '12px',
+                                    background: 'var(--bg-elevated)',
+                                    borderRadius: '4px',
+                                    overflow: 'auto',
+                                    fontSize: '0.85rem'
+                                }}>
+{`Term,IPA,Definition,Example
+Hello,/həˈloʊ/,A greeting,"Hello, how are you?"
+World,/wɜːrld/,The earth,The world is round.`}
+                                </pre>
+                                <p style={{ margin: '8px 0 0 0', color: 'var(--text-muted)' }}>
+                                    • Required columns: <strong>Term</strong>, <strong>Definition</strong><br/>
+                                    • Optional columns: <strong>IPA</strong>, <strong>Example</strong> (will be added to Note)<br/>
+                                    • Use quotes for values containing commas
+                                </p>
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Paste CSV Content</label>
+                                <textarea
+                                    className="form-input"
+                                    value={csvText}
+                                    onChange={(e) => setCsvText(e.target.value)}
+                                    rows="10"
+                                    placeholder="Paste your CSV content here..."
+                                    style={{ fontFamily: 'monospace', fontSize: '0.9rem' }}
+                                />
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '12px' }}>
+                                <button
+                                    type="button"
+                                    onClick={handleImportCSV}
+                                    className="btn btn-primary"
+                                    style={{ flex: 1 }}
+                                >
+                                    Import Cards
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setShowImportModal(false);
+                                        setCsvText('');
+                                    }}
+                                    className="btn btn-secondary"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
