@@ -47,6 +47,9 @@ export default function MobileMenu({ isOpen, onClose, user, avatar, onLogout }) 
                             <Link to="/explore" className="mobile-menu-item" onClick={handleLinkClick}>
                                 Explore
                             </Link>
+                            <Link to="/oxford" className="mobile-menu-item" onClick={handleLinkClick}>
+                                Oxford 3000
+                            </Link>
                             <Link to="/create" className="mobile-menu-item" onClick={handleLinkClick}>
                                 Create
                             </Link>

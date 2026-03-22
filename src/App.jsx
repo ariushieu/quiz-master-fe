@@ -21,6 +21,7 @@ import CreateReading from './pages/CreateReading';
 import EditReading from './pages/EditReading';
 import UnderMaintenance from './pages/UnderMaintenance';
 import ExternalRedirect from './components/ExternalRedirect';
+import Oxford3000 from './pages/Oxford3000';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -63,6 +64,14 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <Explore />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/oxford"
+          element={
+            <ProtectedRoute>
+              <Oxford3000 />
             </ProtectedRoute>
           }
         />

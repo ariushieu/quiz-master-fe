@@ -65,6 +65,7 @@ export default function Navbar() {
                             {/* Desktop Navigation Links */}
                             <li className="desktop-only"><Link to="/sets">My Sets</Link></li>
                             <li className="desktop-only"><Link to="/explore">Explore</Link></li>
+                            <li className="desktop-only"><Link to="/oxford">Oxford 3000</Link></li>
                             <li className="desktop-only"><Link to="/create">Create</Link></li>
                             <li className="desktop-only"><Link to="/reading">Reading</Link></li>
                             <li className="desktop-only"><Link to="/grammar">Grammar</Link></li>
