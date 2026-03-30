@@ -10,6 +10,7 @@ import SetList from './pages/SetList';
 import CreateSet from './pages/CreateSet';
 import Study from './pages/Study';
 import Quiz from './pages/Quiz';
+import VocabularyPractice from './pages/VocabularyPractice';
 import Profile from './pages/Profile';
 import Leaderboard from './pages/Leaderboard';
 import UserProfile from './pages/UserProfile';
@@ -104,6 +105,14 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <Quiz />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/vocabulary-practice/:id"
+          element={
+            <ProtectedRoute>
+              <VocabularyPractice />
             </ProtectedRoute>
           }
         />

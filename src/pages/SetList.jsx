@@ -114,22 +114,30 @@ export default function SetList() {
                                     <span>{set.cards?.length || 0} cards</span>
                                     <span>{new Date(set.updatedAt).toLocaleDateString()}</span>
                                 </div>
-                                <div className="set-card-actions">
-                                    <Link to={`/study/${set._id}`} className="btn btn-primary btn-sm">
-                                        Study
-                                    </Link>
-                                    <Link to={`/quiz/${set._id}`} className="btn btn-secondary btn-sm">
-                                        Quiz
-                                    </Link>
-                                    <Link to={`/edit/${set._id}`} className="btn btn-secondary btn-sm">
-                                        Edit
-                                    </Link>
-                                    <button
-                                        onClick={(e) => openDeleteModal(set._id, set.title, e)}
-                                        className="btn btn-danger btn-sm"
-                                    >
-                                        Delete
-                                    </button>
+                                <div className="set-card-actions" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                        <Link to={`/study/${set._id}`} className="btn btn-primary btn-sm" style={{ flex: 1, textAlign: 'center' }}>
+                                            Study
+                                        </Link>
+                                        <Link to={`/quiz/${set._id}`} className="btn btn-secondary btn-sm" style={{ flex: 1, textAlign: 'center' }}>
+                                            Quiz
+                                        </Link>
+                                        <Link to={`/vocabulary-practice/${set._id}`} className="btn btn-secondary btn-sm" style={{ flex: 1, textAlign: 'center' }}>
+                                            Ôn tập
+                                        </Link>
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                        <Link to={`/edit/${set._id}`} className="btn btn-secondary btn-sm" style={{ flex: 1, textAlign: 'center' }}>
+                                            Edit
+                                        </Link>
+                                        <button
+                                            onClick={(e) => openDeleteModal(set._id, set.title, e)}
+                                            className="btn btn-danger btn-sm"
+                                            style={{ flex: 1 }}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
                                 {set.isPublic && (
                                     <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #eee' }}>
