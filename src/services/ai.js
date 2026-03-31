@@ -47,5 +47,17 @@ export const aiAPI = {
         } catch {
             return null;
         }
+    },
+
+    async generateFlashcards(text) {
+        const res = await fetch(`${API_URL}/ai/generate-flashcards`, {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify({ text })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        return data;
     }
 };

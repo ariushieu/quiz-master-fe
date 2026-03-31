@@ -23,6 +23,7 @@ import EditReading from './pages/EditReading';
 import UnderMaintenance from './pages/UnderMaintenance';
 import ExternalRedirect from './components/ExternalRedirect';
 import Oxford3000 from './pages/Oxford3000';
+import CreateFromNote from './pages/CreateFromNote';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -81,6 +82,14 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <CreateSet />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create-from-note"
+          element={
+            <ProtectedRoute>
+              <CreateFromNote />
             </ProtectedRoute>
           }
         />

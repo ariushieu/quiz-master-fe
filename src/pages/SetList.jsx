@@ -66,9 +66,14 @@ export default function SetList() {
                 <LearningPath />
                 <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="page-title">My Study Sets</h1>
-                    <Link to="/create" className="btn btn-primary">
-                        Create New Set
-                    </Link>
+                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                        <Link to="/create" className="btn btn-primary">
+                            Create New Set
+                        </Link>
+                        <Link to="/create-from-note" className="btn btn-secondary">
+                            Create from Note
+                        </Link>
+                    </div>
                 </div>
 
                 {error && <div className="alert alert-error">{error}</div>}
